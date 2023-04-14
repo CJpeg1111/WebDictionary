@@ -17,14 +17,12 @@ namespace WebDictionary.Controllers
         AboutManager am = new AboutManager(new EfAboutDal());
         AboutValidator validator = new AboutValidator();
 
-        [Authorize]
         public ActionResult Index()
         {
             var list = am.GetList();
             return View(list);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult addAbout()
         {
@@ -48,14 +46,28 @@ namespace WebDictionary.Controllers
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
                 ViewBag.okay = false;
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",about);
             }            
         }
 
-        [Authorize]
         public PartialViewResult AboutPartial()
         {
             return PartialView();
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var find=am.GetAbout(id);
+            if (find.AboutRemove == true)
+            {
+                find.AboutRemove = false;
+            }
+            else
+            {
+                find.AboutRemove = true;
+            }
+            am.UpdateAbout(find);
+            return RedirectToAction("Index");
         }
     }
 }

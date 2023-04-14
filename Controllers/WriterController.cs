@@ -16,14 +16,12 @@ namespace WebDictionary.Controllers
         WriterManager wm = new WriterManager(new EfWriterDal());
         WriterValidator validator = new WriterValidator();
 
-        [Authorize]
         public ActionResult Index()
         {
             var writerlist = wm.GetList();
             return View(writerlist);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult addWriter()
         {
@@ -49,7 +47,6 @@ namespace WebDictionary.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult updateWriter(int id)
         {

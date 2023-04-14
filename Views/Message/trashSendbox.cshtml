@@ -1,4 +1,5 @@
-﻿@using EntityLayer.Concrete
+﻿@using System.Text.RegularExpressions;
+@using EntityLayer.Concrete
 @model List<Message>
 
 @{
@@ -41,11 +42,14 @@
                                 <td class="mailbox-subject">
                                     <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@item.Subject -</a>
                                     @if (item.MessageContent.Length + item.Subject.Length <= 90)
-                                    {<a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@item.MessageContent</a>}
+                                    {
+                                        string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);
+                                        <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@cleanText</a>}
                                     @if (item.MessageContent.Length + item.Subject.Length > 90)
                                     {
+                                        string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);
                                         int sub = 90 - item.Subject.Length;
-                                        <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@item.MessageContent.Substring(0, sub)...</a>
+                                        <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
                                     }
                                 </td>
                                 @*<td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>*@

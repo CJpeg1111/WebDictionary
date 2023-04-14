@@ -12,13 +12,11 @@ namespace WebDictionary.Controllers
     {
         ContentManager cm = new ContentManager(new EfContentDal());
 
-        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
         public ActionResult ContentByHeading(int id)
         {
             var list = cm.GetListById(id);

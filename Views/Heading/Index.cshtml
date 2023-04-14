@@ -42,7 +42,7 @@
                     </button>
                 </div>
             </div><!-- /.card-header -->
-            <div class="card-body p-0">
+            <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12 col-md-6"></div>
@@ -55,10 +55,10 @@
                                     <tr role="row">
                                         <th style="width: 1%" class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
                                         <th style="width: 27%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Heading: activate to sort column ascending">Heading</th>
-                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Writer: activate to sort column ascending" style="">Writer</th>
-                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending" style="">Category</th>
-                                        <th style="width: 12%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="">Status</th>
-                                        <th style="width: 20%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transiction: activate to sort column ascending" style="">Transiction</th>
+                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Writer: activate to sort column ascending">Writer</th>
+                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending">Category</th>
+                                        <th style="width: 12%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                                        <th style="width: 20%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transiction: activate to sort column ascending">Transiction</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -107,12 +107,7 @@
                                                         </i>
                                                         Contents
                                                     </a>
-                                                    <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Edit
-                                                    </a>
-                                                    @if (@item.HeadingRemove == true)
+                                                    @if (item.HeadingRemove == true)
                                                     {
                                                         <a class="btn btn-success btn-sm" href="/Heading/Delete/@item.HeadingID">
                                                             <i class="fas fa-recycle">
@@ -120,8 +115,13 @@
                                                             Active
                                                         </a>
                                                     }
-                                                    @if (@item.HeadingRemove == false)
+                                                    @if (item.HeadingRemove == false)
                                                     {
+                                                        <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
+                                                            <i class="fas fa-pencil-alt">
+                                                            </i>
+                                                            Edit
+                                                        </a>
                                                         <a class="btn btn-danger btn-sm" href="/Heading/Delete/@item.HeadingID">
                                                             <i class="fas fa-trash">
                                                             </i>
@@ -158,11 +158,11 @@
                                                     @item.Category.CategoryName
                                                 </td>
                                                 <td style="" class="project-state">
-                                                    @if (@item.HeadingRemove == true)
+                                                    @if (item.HeadingRemove == true)
                                                     {
                                                         <span class="badge badge-danger">Removed</span>
                                                     }
-                                                    @if (@item.HeadingRemove == false)
+                                                    @if (item.HeadingRemove == false)
                                                     {
                                                         <span class="badge badge-success">Active</span>
                                                     }
@@ -173,12 +173,7 @@
                                                         </i>
                                                         Contents
                                                     </a>
-                                                    <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Edit
-                                                    </a>
-                                                    @if (@item.HeadingRemove == true)
+                                                    @if (item.HeadingRemove == true)
                                                     {
                                                         <a class="btn btn-success btn-sm" href="/Heading/Delete/@item.HeadingID">
                                                             <i class="fas fa-recycle">
@@ -186,8 +181,13 @@
                                                             Active
                                                         </a>
                                                     }
-                                                    @if (@item.HeadingRemove == false)
+                                                    @if (item.HeadingRemove == false)
                                                     {
+                                                        <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
+                                                            <i class="fas fa-pencil-alt">
+                                                            </i>
+                                                            Edit
+                                                        </a>
                                                         <a class="btn btn-danger btn-sm" href="/Heading/Delete/@item.HeadingID">
                                                             <i class="fas fa-trash">
                                                             </i>

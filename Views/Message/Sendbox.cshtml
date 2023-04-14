@@ -1,4 +1,5 @@
-﻿@using EntityLayer.Concrete
+﻿@using System.Text.RegularExpressions;
+@using EntityLayer.Concrete
 @model List<Message>
 @{
     ViewBag.Title = "Sendbox";
@@ -102,12 +103,14 @@
                                                         <td class="mailbox-name"><a href="/Message/sendboxDetails/@item.MessageId">@item.ReceiverMail</a></td>
                                                         <td class="mailbox-subject">
                                                             <a style="color:black" href="/Message/sendboxDetails/@item.MessageId">@item.Subject -</a>
-                                                            @if (item.MessageContent.Length + item.Subject.Length <= 90)
-                                                            {<a style="color:black" href="/Message/sendboxDetails/@item.MessageId">@item.MessageContent</a>}
-                                                            @if (item.MessageContent.Length + item.Subject.Length > 90)
+                                                            @{ string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);}
+                                                            @if (cleanText.Length + item.Subject.Length <= 90)
+                                                            {
+                                                                <a style="color:black" href="/Message/sendboxDetails/@item.MessageId">@cleanText</a>}
+                                                            @if (cleanText.Length + item.Subject.Length > 90)
                                                             {
                                                                 int sub = 90 - item.Subject.Length;
-                                                                <a style="color:black" href="/Message/sendboxDetails/@item.MessageId">@item.MessageContent.Substring(0, sub)...</a>
+                                                                <a style="color:black" href="/Message/sendboxDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
                                                             }
                                                         </td>
                                                         @*<td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>*@

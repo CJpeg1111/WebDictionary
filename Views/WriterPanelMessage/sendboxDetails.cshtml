@@ -92,7 +92,7 @@
                                         <!-- /.mailbox-controls -->
                                         <div class="mailbox-read-message">
                                             <p>
-                                                @Html.DisplayFor(x => x.MessageContent)
+                                                @Html.Raw(System.Web.HttpUtility.HtmlDecode(Html.DisplayFor(x => x.MessageContent).ToString()))
                                             </p>
                                         </div>
                                         <!-- /.mailbox-read-message -->

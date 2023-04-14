@@ -33,9 +33,9 @@ namespace BusinessLayer.Concrete
             return _draftMessageDal.Get(x => x.DraftMessageId == id);
         }
 
-        public List<DraftMessage> GetList()
+        public List<DraftMessage> GetList(string DraftSenderMail)
         {
-            return _draftMessageDal.List(x => x.DraftSenderMail == "admin@gmail.com");
+            return _draftMessageDal.List(x => x.DraftSenderMail == DraftSenderMail, x => x.DraftMessageDate);
         }
 
         public void UpdateDraftMessage(DraftMessage draftMessage)

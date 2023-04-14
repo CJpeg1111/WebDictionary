@@ -29,3 +29,4 @@ D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLay
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.draft_delete_remove.resources
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.add_image_class.resources
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.add_admin_class.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.about_add_remove.resources

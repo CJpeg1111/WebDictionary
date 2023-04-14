@@ -2,6 +2,7 @@
 using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,43 @@ namespace WebDictionary.Controllers
         HeadingValidator validator = new HeadingValidator();
         CategoryManager cm = new CategoryManager(new EfCategoryDal());
         WriterManager wm = new WriterManager(new EfWriterDal());
+        WriterValidator wvalidator = new WriterValidator();
 
+        [HttpGet]
         public ActionResult WriterProfile()
         {
-            return View();
+            string WriterMail = (string)Session["WriterMail"];
+            var info = wm.GetWriterIdByMail(WriterMail);
+            int id = info.WriterID;
+            var writer = wm.GetWriter(id);
+            return View(writer);
+        }
+
+        [HttpPost]
+        public ActionResult WriterProfile(Writer writer)
+        {
+            ValidationResult results = wvalidator.Validate(writer);
+            if (results.IsValid)
+            {
+                wm.UpdateWriter(writer);
+                return RedirectToAction("WriterProfile");
+            }
+            else
+            {
+                foreach (var item in results.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+                return View();
+            }
         }
 
         public ActionResult MyHeading()
         {
-            var headings = hm.GetListByWriter();
+            string WriterMail = (string)Session["WriterMail"];
+            var info = wm.GetWriterIdByMail(WriterMail);
+            int id = info.WriterID;
+            var headings = hm.GetListByWriter(id);
             return View(headings);
         }
 
@@ -46,7 +75,10 @@ namespace WebDictionary.Controllers
         public ActionResult addHeading(Heading heading)
         {
             heading.HeadingDate = DateTime.Now;
-            heading.WriterID = 1;
+            string WriterMail = (string)Session["WriterMail"];
+            var info = wm.GetWriterIdByMail(WriterMail);
+            int id = info.WriterID;
+            heading.WriterID = id;
             ValidationResult result = validator.Validate(heading);
             if (result.IsValid)
             {
@@ -119,6 +151,12 @@ namespace WebDictionary.Controllers
             heading.HeadingRemove = true;
             hm.DeleteHeading(heading);
             return RedirectToAction("MyHeading");
+        }
+
+        public ActionResult AllHeading()
+        {
+            var list = hm.GetList();
+            return View(list);
         }
     }
 }

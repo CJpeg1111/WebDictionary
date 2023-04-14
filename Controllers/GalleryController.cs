@@ -12,7 +12,6 @@ namespace WebDictionary.Controllers
     {
         ImageFileManager im = new ImageFileManager(new EfImageFileDal());
 
-        [Authorize]
         public ActionResult Index()
         {
             var images = im.GetList();

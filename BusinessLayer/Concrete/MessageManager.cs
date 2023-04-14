@@ -27,29 +27,29 @@ namespace BusinessLayer.Concrete
             _messageDal.Delete(message);
         }
 
-        public List<Message> GetListInbox()
+        public List<Message> GetListInbox(string ReceiverMail)
         {
-            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com" && x.Remove == false);
+            return _messageDal.List(x => x.ReceiverMail == ReceiverMail && x.Remove == false, x => x.MessageDate);
         }
 
-        public List<Message> GetListInboxNotRead()
+        public List<Message> GetListInboxNotRead(string ReceiverMail)
         {
-            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com" && x.Remove == false && x.IsRead == false);
+            return _messageDal.List(x => x.ReceiverMail == ReceiverMail && x.Remove == false && x.IsRead == false);
         }
 
-        public List<Message> GetListInboxRemoved()
+        public List<Message> GetListInboxRemoved(string ReceiverMail)
         {
-            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com" && x.Remove == true);
+            return _messageDal.List(x => x.ReceiverMail == ReceiverMail && x.Remove == true, x => x.MessageDate);
         }
 
-        public List<Message> GetListSendbox()
+        public List<Message> GetListSendbox(string SenderMail)
         {
-            return _messageDal.List(x => x.SenderMail == "admin@gmail.com" && x.Remove == false);
+            return _messageDal.List(x => x.SenderMail == SenderMail && x.Remove == false, x => x.MessageDate);
         }
 
-        public List<Message> GetListSendboxRemoved()
+        public List<Message> GetListSendboxRemoved(string SenderMail)
         {
-            return _messageDal.List(x => x.SenderMail == "admin@gmail.com" && x.Remove == true);
+            return _messageDal.List(x => x.SenderMail == SenderMail && x.Remove == true, x => x.MessageDate);
         }
 
         public Message GetMessage(int id)

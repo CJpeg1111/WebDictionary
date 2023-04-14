@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface IDraftMessageService
     {
-        List<DraftMessage> GetList();
+        List<DraftMessage> GetList(string DraftSenderMail);
         void AddDraftMessage(DraftMessage draftMessage);
         DraftMessage GetDraftMessage(int id);
         void DeleteDraftMessage(DraftMessage draftMessage);

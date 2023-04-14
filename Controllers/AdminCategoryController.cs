@@ -23,7 +23,6 @@ namespace WebDictionary.Controllers
             return View(ctg);
         }
 
-        [Authorize]
         public ActionResult addCategory()
         {        
             return View();
@@ -49,7 +48,6 @@ namespace WebDictionary.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult Delete(int id)
         {
             var ctgid = cm.GetCategory(id);
@@ -57,7 +55,6 @@ namespace WebDictionary.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult updateCategory(int id)
         {

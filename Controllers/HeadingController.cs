@@ -21,14 +21,12 @@ namespace WebDictionary.Controllers
         CategoryManager cm = new CategoryManager(new EfCategoryDal());
         WriterManager wm = new WriterManager(new EfWriterDal());
 
-        [Authorize]
         public ActionResult Index()
         {
             var list = hm.GetList();
             return View(list);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult addHeading()
         {
@@ -85,7 +83,6 @@ namespace WebDictionary.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult updateHeading(int id)
         {
@@ -128,7 +125,6 @@ namespace WebDictionary.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult Delete(int id)
         {
             var heading = hm.GetHeading(id);

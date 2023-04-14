@@ -12,6 +12,8 @@ namespace BusinessLayer.Abstract
         List<Writer> GetList();
         void AddWriter(Writer writer);
         Writer GetWriter(int id);
+        Writer GetWriterIdByMail(string WriterMail);
+        Writer ControlWriter(string WriterMail, string WriterPassword);
         void DeleteWriter(Writer writer);
         void UpdateWriter(Writer writer);
     }

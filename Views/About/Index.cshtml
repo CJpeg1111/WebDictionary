@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-0">
@@ -49,15 +52,16 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="example2" class="table table-borderless table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                            <table id="example2" class="table table-borderless table-hover dataTable dtr-inline projects" role="grid" aria-describedby="example2_info">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 1: activate to sort column ascending">Detail 1</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 2: activate to sort column ascending" style="">Detail 2</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Image 1: activate to sort column ascending" style="">Image 1</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Image 2: activate to sort column ascending" style="">Image 2</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transaction: activate to sort column ascending" style="">Transaction</th>
+                                        <th style="width: 1%" class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
+                                        <th style="width: 26%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 1: activate to sort column ascending">Detail 1</th>
+                                        <th style="width: 26%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 2: activate to sort column ascending">Detail 2</th>
+                                        <th style="width: 8%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Image 1: activate to sort column ascending">Image 1</th>
+                                        <th style="width: 8%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Image 2: activate to sort column ascending">Image 2</th>
+                                        <th style="width: 12%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                                        <th style="width: 19%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transaction: activate to sort column ascending">Transaction</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,9 +75,38 @@
                                                 <td style="">@item.Details2</td>
                                                 <td style="" class="">@item.Image1</td>
                                                 <td style="" class="">@item.Image2</td>
-                                                <td style="">
-                                                    <a href="#" class="btn btn-danger">Delete</a>
-                                                    <a href="#" class="btn btn-warning">Update</a>
+                                                <td style="" class="project-state">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <span class="badge badge-danger">Removed</span>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <span class="badge badge-success">Active</span>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-actions text-right">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <a class="btn btn-success" href="/About/Delete/@item.ID">
+                                                            <i class="fas fa-recycle">
+                                                            </i>
+                                                            Active
+                                                        </a>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <a class="btn btn-warning" href="#">
+                                                            <i class="fas fa-pencil-alt">
+                                                            </i>
+                                                            Edit
+                                                        </a>
+                                                        <a class="btn btn-danger" href="/About/Delete/@item.ID">
+                                                            <i class="fas fa-trash">
+                                                            </i>
+                                                            Delete
+                                                        </a>
+                                                    }
                                                 </td>
                                             </tr>
                                         }
@@ -85,9 +118,38 @@
                                                 <td style="">@item.Details2</td>
                                                 <td style="" class="">@item.Image1</td>
                                                 <td style="" class="">@item.Image2</td>
-                                                <td style="">
-                                                    <a href="#" class="btn btn-danger">Delete</a>
-                                                    <a href="#" class="btn btn-warning">Update</a>
+                                                <td style="" class="project-state">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <span class="badge badge-danger">Removed</span>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <span class="badge badge-success">Active</span>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-actions text-right">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <a class="btn btn-success" href="/About/Delete/@item.ID">
+                                                            <i class="fas fa-recycle">
+                                                            </i>
+                                                            Active
+                                                        </a>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <a class="btn btn-warning" href="#">
+                                                            <i class="fas fa-pencil-alt">
+                                                            </i>
+                                                            Edit
+                                                        </a>
+                                                        <a class="btn btn-danger" href="/About/Delete/@item.ID">
+                                                            <i class="fas fa-trash">
+                                                            </i>
+                                                            Delete
+                                                        </a>
+                                                    }
                                                 </td>
                                             </tr>
                                         }
@@ -129,7 +191,21 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#modal').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        });
+
+        function showModal() {
+            $('#modal').load('/About/AboutPartial');
+            $('#modal').modal('show');
+        }
+    </script>
+    <!-- /.modal -->
 }
 
 
-<!-- /.modal -->
+

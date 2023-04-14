@@ -50,6 +50,11 @@ namespace DataAccessLayer.Concrete.Repositories
             return _object.Where(filter).ToList();
         }
 
+        public List<T> List(Expression<Func<T, bool>> filter, Expression<Func<T, DateTime>> order)
+        {
+            return _object.Where(filter).OrderByDescending(order).ToList();
+        }
+
         public void Update(T p)
         {
             var updatedEntity = c.Entry(p);

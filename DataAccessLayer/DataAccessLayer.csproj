@@ -134,6 +134,10 @@
     <Compile Include="Migrations\202304011244351_add_admin_class.designer.cs">
       <DependentUpon>202304011244351_add_admin_class.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304141520364_about_add_remove.cs" />
+    <Compile Include="Migrations\202304141520364_about_add_remove.designer.cs">
+      <DependentUpon>202304141520364_about_add_remove.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -192,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304011244351_add_admin_class.resx">
       <DependentUpon>202304011244351_add_admin_class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304141520364_about_add_remove.resx">
+      <DependentUpon>202304141520364_about_add_remove.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebDictionary.Controllers
 {
@@ -17,23 +19,23 @@ namespace WebDictionary.Controllers
     public class MessageController : Controller
     {
         MessageManager mm = new MessageManager(new EfMessageDal());
+        DraftMessageManager dmm = new DraftMessageManager(new EfDraftMessageDal());
         MessageValidator validator = new MessageValidator();
 
-        [Authorize]
         public ActionResult Inbox()
         {
-            var list = mm.GetListInbox();
+            string ReceiverMail = (string)Session["AdminUserName"];
+            var list = mm.GetListInbox(ReceiverMail);
             return View(list);
         }
 
-        [Authorize]
         public ActionResult Sendbox()
         {
-            var list = mm.GetListSendbox();
+            string SenderMail = (string)Session["AdminUserName"];
+            var list = mm.GetListSendbox(SenderMail);
             return View(list);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult addNewMessage()
         {
@@ -42,15 +44,40 @@ namespace WebDictionary.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult addNewMessage(Message message)
-        {
+        public ActionResult addNewMessage(Message message,DraftMessage draftMessage, FormCollection form)
+        {           
             ValidationResult result = validator.Validate(message);
             if (result.IsValid)
             {
-                message.SenderMail = "admin@gmail.com";
-                message.MessageDate = DateTime.Now;
-                mm.AddMessage(message);
-                return RedirectToAction("Sendbox");
+                string action = string.Empty;
+                string cont = string.Empty;
+                if (form["btnDraft"] != null)
+                {
+                    string SenderMail = (string)Session["AdminUserName"];
+                    string ReceiverMail = form["ReceiverMail"];
+                    string Subject = form["Subject"];
+                    string MessageContent = form["MessageContent"];
+
+                    draftMessage.DraftReceiverMail = ReceiverMail;
+                    draftMessage.DraftSenderMail = SenderMail;
+                    draftMessage.DraftSubject = Subject;
+                    draftMessage.DraftMessageContent = MessageContent;
+                    draftMessage.DraftMessageDate = DateTime.Now;
+                    dmm.AddDraftMessage(draftMessage);
+                    action = "draftMessage";
+                    cont = "DraftMessage";
+                }
+                else if (form["btnMessage"] != null)
+                {
+                    string SenderMail = (string)Session["AdminUserName"];
+                    message.SenderMail = SenderMail;
+                    message.MessageDate = DateTime.Now;
+
+                    mm.AddMessage(message);
+                    action = "Sendbox";
+                    cont = "Message";
+                }
+                return RedirectToAction(action,cont);
             }
             else
             {
@@ -62,7 +89,6 @@ namespace WebDictionary.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult inboxDetails(int id)
         {
             var inbox = mm.GetMessage(id);
@@ -74,14 +100,12 @@ namespace WebDictionary.Controllers
             return View(inbox);
         }
 
-        [Authorize]
         public ActionResult sendboxDetails(int id)
         {
             var sendbox = mm.GetMessage(id);
             return View(sendbox);
         }
 
-        [Authorize]
         public ActionResult inboxDelete(int id)
         {
             var message = mm.GetMessage(id);
@@ -90,7 +114,6 @@ namespace WebDictionary.Controllers
             return RedirectToAction("Inbox");
         }
 
-        [Authorize]
         public ActionResult sendboxDelete(int id)
         {
             var message = mm.GetMessage(id);
@@ -99,28 +122,26 @@ namespace WebDictionary.Controllers
             return RedirectToAction("Sendbox");
         }
 
-        [Authorize]
         public PartialViewResult trashInbox()
         {
-            var inbox = mm.GetListInboxRemoved();
+            string ReceiverMail = (string)Session["AdminUserName"];
+            var inbox = mm.GetListInboxRemoved(ReceiverMail);
             return PartialView(inbox);
         }
 
-        [Authorize]
         public PartialViewResult trashSendbox()
         {
-            var sendbox = mm.GetListSendboxRemoved();
+            string SenderMail = (string)Session["AdminUserName"];
+            var sendbox = mm.GetListSendboxRemoved(SenderMail);
             return PartialView(sendbox);
         }
 
-        [Authorize]
         public ActionResult trashMessageDetails(int id)
         {
             var message = mm.GetMessage(id);
             return View(message);
         }
 
-        [Authorize]
         public ActionResult trashMessageDelete(int id)
         {
             var message = mm.GetMessage(id);

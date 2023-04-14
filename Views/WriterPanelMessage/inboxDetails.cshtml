@@ -1,9 +1,9 @@
-﻿@model EntityLayer.Concrete.Message
+﻿@using System.Text.RegularExpressions;
+@model EntityLayer.Concrete.Message
 @{
     ViewBag.Title = "inboxDetails";
     Layout = "~/Views/Shared/_WriterLayout.cshtml";
 }
-
 
 <div class="content-header">
     <div class="container-fluid">
@@ -93,7 +93,7 @@
                                         <!-- /.mailbox-controls -->
                                         <div class="mailbox-read-message">
                                             <p>
-                                                @Html.DisplayFor(x => x.MessageContent)
+                                                @Html.Raw(System.Web.HttpUtility.HtmlDecode(Html.DisplayFor(x => x.MessageContent).ToString()))
                                             </p>
                                         </div>
                                         <!-- /.mailbox-read-message -->

@@ -1,0 +1,59 @@
+﻿@model EntityLayer.Concrete.Content
+@{
+    ViewBag.Title = "addContent";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-0">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li style="margin-top:5px"><i class="fas fa-paint-roller"></i></li>
+                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> My Content</h1></li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">WebDictionary v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <section class="col-lg-6" style="position: relative; margin: auto;">
+        <div class="card bg-gradient-gray-dark">
+            <div class="card-header border-0">
+                <h3 class="card-title">
+                    <i class="fas fa-heading mr-1"></i>
+                    Add New Content to <span class="badge badge-warning">@ViewBag.heading</span>
+                </h3>
+                <div class="card-tools">
+                    <a href="/WriterPanel/AllHeading" class="btn bg-gray-dark btn-sm">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("addContent", "WriterPanelContent", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Content Caption")
+                        @Html.TextAreaFor(x => x.ContentCaption,4,30, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.ContentCaption, "", new { @style = "color:orange" })
+                        <br />
+                        <input type="hidden" name="HeadingID" value="@ViewBag.id"/>
+                        <button class="btn btn-outline-light" style="margin-top:10px">Add Content</button>
+                    </div>
+                }
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </section>
+</div>
+
+
+
+

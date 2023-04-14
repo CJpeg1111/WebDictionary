@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,16 +15,16 @@ namespace WebDictionary.Controllers
     public class DraftMessageController : Controller
     {
         DraftMessageManager dmm = new DraftMessageManager(new EfDraftMessageDal());
+        MessageManager mm = new MessageManager(new EfMessageDal());
         DraftMessageValidator dvalidator = new DraftMessageValidator();
 
-        [Authorize]
         public ActionResult draftMessage()
         {
-            var list = dmm.GetList();
+            string SenderMail = (string)Session["AdminUserName"];
+            var list = dmm.GetList(SenderMail);
             return View(list);
         }
 
-        [Authorize]
         public ActionResult draftMessageDelete(int id)
         {
             var draft = dmm.GetDraftMessage(id);
@@ -31,7 +32,6 @@ namespace WebDictionary.Controllers
             return RedirectToAction("draftMessage");
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult updateDraft(int id)
         {
@@ -40,13 +40,41 @@ namespace WebDictionary.Controllers
         }
 
         [HttpPost]
-        public ActionResult updateDraft(DraftMessage p)
+        [ValidateInput(false)]
+        public ActionResult updateDraft(DraftMessage draftMessage, Message message, FormCollection form)
         {
-            ValidationResult result = dvalidator.Validate(p);
+            ValidationResult result = dvalidator.Validate(draftMessage);
             if (result.IsValid)
             {
-                dmm.UpdateDraftMessage(p);
-                return RedirectToAction("draftMessage");
+                string action = string.Empty;
+                string cont = string.Empty;
+                if (form["btnDraft"] != null)
+                {
+                    dmm.UpdateDraftMessage(draftMessage);
+                    action = "draftMessage";
+                    cont = "DraftMessage";
+                }
+                else if (form["btnMessage"] != null)
+                {
+                    string SenderMail = form["DraftSenderMail"];
+                    string ReceiverMail = form["DraftReceiverMail"];
+                    string Subject = form["DraftSubject"];
+                    string MessageContent = form["DraftMessageContent"];
+                    DateTime Date = DateTime.Now;
+
+                    message.ReceiverMail = ReceiverMail;
+                    message.SenderMail = SenderMail;
+                    message.Subject = Subject;
+                    message.MessageContent = MessageContent;
+                    message.MessageDate = Date;
+                    mm.AddMessage(message);
+
+                    dmm.DeleteDraftMessage(draftMessage);
+
+                    action = "Sendbox";
+                    cont = "Message";
+                }
+                return RedirectToAction(action, cont);
             }
             else
             {

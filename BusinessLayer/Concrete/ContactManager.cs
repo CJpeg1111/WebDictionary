@@ -34,7 +34,7 @@ namespace BusinessLayer.Concrete
 
         public List<Contact> GetList()
         {
-            return _contactDal.List(x => x.Remove == false);
+            return _contactDal.List(x => x.Remove == false, x => x.ContactDate);
         }
 
         public List<Contact> GetListNotRead()
