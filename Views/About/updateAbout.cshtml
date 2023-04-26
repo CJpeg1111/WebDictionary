@@ -1,0 +1,67 @@
+﻿@model EntityLayer.Concrete.About
+@{
+    ViewBag.Title = "updateAbout";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-0">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li style="margin-top:5px"><i class="fas fa-info"></i></li>
+                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> About Us</h1></li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">WebDictionary v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <section class="col-lg-6" style="position: relative; margin: auto;">
+        <div class="card bg-gradient-indigo">
+            <div class="card-header border-0">
+                <h3 class="card-title">
+                    <i class="fas fa-edit mr-1"></i>
+                    Update About
+                </h3>
+                <div class="card-tools">
+                    <a href="/About/Index" class="btn bg-indigo btn-sm">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("updateAbout", "About", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Detail 1")
+                        @Html.TextAreaFor(x => x.Details1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Details1, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Detail 2")
+                        @Html.TextAreaFor(x => x.Details2, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Details2, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Image 1")
+                        @Html.TextBoxFor(x => x.Image1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Image1, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Image 2")
+                        @Html.TextBoxFor(x => x.Image2, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Image2, "", new { @style = "color:red" })
+                        <br />
+                        @Html.HiddenFor(x => x.ID)
+                        <button class="btn btn-outline-light" style="margin-top:10px">Save Changes</button>
+                    </div>
+                }
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </section>
+</div>

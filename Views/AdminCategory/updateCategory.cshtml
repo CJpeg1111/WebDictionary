@@ -59,3 +59,15 @@
     </section>
 </div>
 
+@section scripts{
+    @if (ViewBag.alert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire("Success", "Updating category completed successfully.", "success").then(() => {
+                    window.location.href = '@Url.Action("Index", "AdminCategory")';
+                });
+            });
+        </script>
+    }
+}

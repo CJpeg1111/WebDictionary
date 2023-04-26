@@ -6,36 +6,35 @@ using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 
 namespace WebDictionary.Controllers
 {
-    public class AdminCategoryController : Controller
+    public class AuthorizationController : Controller
     {
-        CategoryManager cm = new CategoryManager(new EfCategoryDal());
-        CategoryValidator categoryValidator = new CategoryValidator();
+        AdminManager am = new AdminManager(new EfAdminDal());
+        AdminValidator validator = new AdminValidator();
 
-        [Authorize(Roles ="A")]
         public ActionResult Index()
         {
-            var ctg = cm.GetList();
-            return View(ctg);
+            var admin = am.GetList();
+            return View(admin);
         }
 
-        public ActionResult addCategory()
-        {        
+        [HttpGet]
+        public ActionResult addAdmin()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult addCategory(Category p)
-        {            
-            ValidationResult result = categoryValidator.Validate(p);
+        public ActionResult addAdmin(Admin admin)
+        {
+            ValidationResult result = validator.Validate(admin);
             if (result.IsValid)
             {
-                cm.AddCategory(p);
+                am.AddAdmin(admin);
                 ViewBag.alert = "true";
             }
             else
@@ -48,27 +47,21 @@ namespace WebDictionary.Controllers
             return View();
         }
 
-        public ActionResult Delete(int id)
-        {
-            var ctgid = cm.GetCategory(id);
-            cm.DeleteCategory(ctgid);
-            return RedirectToAction("Index");
-        }
 
         [HttpGet]
-        public ActionResult updateCategory(int id)
+        public ActionResult updateAdmin(int id)
         {
-            var ctgid = cm.GetCategory(id);
-            return View(ctgid);
+            var admin = am.GetAdmin(id);
+            return View(admin);
         }
 
         [HttpPost]
-        public ActionResult updateCategory(Category p)
+        public ActionResult updateAdmin(Admin admin)
         {
-            ValidationResult result = categoryValidator.Validate(p);
+            ValidationResult result = validator.Validate(admin);
             if (result.IsValid)
             {
-                cm.UpdateCategory(p);
+                am.UpdateAdmin(admin);
                 ViewBag.alert = "true";
             }
             else

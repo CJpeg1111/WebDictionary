@@ -24,7 +24,7 @@ namespace BusinessLayer.Concrete
 
         public Admin ControlAdmin(string AdminUserName, string AdminPassword)
         {
-            return _adminDal.Get(x=>x.AdminUserName== AdminUserName && x.AdminPassword== AdminPassword);
+            return _adminDal.Get(x => x.AdminUserName == AdminUserName && x.AdminPassword == AdminPassword);
         }
 
         public void DeleteAdmin(Admin admin)

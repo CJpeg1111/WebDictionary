@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete.Repositories
@@ -53,6 +54,11 @@ namespace DataAccessLayer.Concrete.Repositories
         public List<T> List(Expression<Func<T, bool>> filter, Expression<Func<T, DateTime>> order)
         {
             return _object.Where(filter).OrderByDescending(order).ToList();
+        }
+
+        public List<TResult> ListChart<TResult>(Expression<Func<T, int>> groupBy, Expression<Func<IGrouping<int, T>, TResult>> selectExpression)
+        {
+            return _object.GroupBy(groupBy).Select(selectExpression).ToList();
         }
 
         public void Update(T p)

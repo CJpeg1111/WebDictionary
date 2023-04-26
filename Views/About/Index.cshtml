@@ -45,14 +45,14 @@
                 </div>
             </div><!-- /.card-header -->
             <div class="card-body">
-                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12 col-md-6"></div>
                         <div class="col-sm-12 col-md-6"></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="example2" class="table table-borderless table-hover dataTable dtr-inline projects" role="grid" aria-describedby="example2_info">
+                            <table id="example1" class="table table-borderless table-hover dataTable dtr-inline projects" role="grid" aria-describedby="example2_info">
                                 <thead>
                                     <tr role="row">
                                         <th style="width: 1%" class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
@@ -96,7 +96,7 @@
                                                     }
                                                     @if (item.AboutRemove == false)
                                                     {
-                                                        <a class="btn btn-warning" href="#">
+                                                        <a class="btn btn-warning" href="/About/updateAbout/@item.ID">
                                                             <i class="fas fa-pencil-alt">
                                                             </i>
                                                             Edit
@@ -139,7 +139,7 @@
                                                     }
                                                     @if (item.AboutRemove == false)
                                                     {
-                                                        <a class="btn btn-warning" href="#">
+                                                        <a class="btn btn-warning" href="/About/updateAbout/@item.ID">
                                                             <i class="fas fa-pencil-alt">
                                                             </i>
                                                             Edit

@@ -1,4 +1,5 @@
-﻿using EntityLayer.Concrete;
+﻿using EntityLayer;
+using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace BusinessLayer.Abstract
         Heading GetHeading(int id);
         void DeleteHeading(Heading heading);
         void UpdateHeading(Heading heading);
+        List<CategoryHeadingChart> ListCategoryHeading();
+        
     }
 }

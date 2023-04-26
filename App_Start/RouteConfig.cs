@@ -16,7 +16,7 @@ namespace WebDictionary
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "AdminCategory", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "ShowCase", action = "Home", id = UrlParameter.Optional }
             );
         }
     }

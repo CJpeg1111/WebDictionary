@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace WebDictionary.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var values = cm.GetListAll();        
+            return View(values);
         }
 
         public ActionResult ContentByHeading(int id)

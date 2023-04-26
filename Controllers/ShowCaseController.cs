@@ -39,6 +39,7 @@ namespace WebDictionary.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
+                ViewBag.result = "true";
                 return View();
             }
         }

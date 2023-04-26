@@ -21,5 +21,6 @@ namespace EntityLayer.Concrete
         public bool CategoryStatus { get; set; }
 
         public ICollection<Heading>Headings { get; set; }
+
     }
 }

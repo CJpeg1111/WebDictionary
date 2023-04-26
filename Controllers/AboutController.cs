@@ -69,5 +69,31 @@ namespace WebDictionary.Controllers
             am.UpdateAbout(find);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult updateAbout(int id)
+        {
+            var about=am.GetAbout(id);
+            return View(about);
+        }
+
+        [HttpPost]
+        public ActionResult updateAbout(About about)
+        {
+            ValidationResult result = validator.Validate(about);
+            if (result.IsValid)
+            {
+                am.UpdateAbout(about);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+                return View();
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
     <title>WebDictionary Admin Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,7 +20,7 @@
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6 text-center mb-5">
+                <div class="col-md-6 text-center mb-3">
                     <h2 class="heading-section">WebDictionary Admin Panel</h2>
                 </div>
             </div>
@@ -33,6 +33,7 @@
 
                         @using (Html.BeginForm("Index", "Login", FormMethod.Post))
                         {
+                            <label style="color:red"> @TempData["validate"]</label>
                             <div class="form-group">
                                 <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
                                 <input type="text" name="AdminUserName" class="form-control" placeholder="Username" required>
@@ -40,6 +41,10 @@
                             <div class="form-group">
                                 <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
                                 <input type="password" name="AdminPassword" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-recaptcha" data-sitekey="6LfotoglAAAAAHjHl9K6DBXmlk9ZOojTEkfWvCNj"></div>
+                                <label style="color:yellow"> @TempData["Message"]</label>
                             </div>
                             <div class="form-group d-md-flex">
                                 <div class="w-100 text-md-right">
@@ -52,7 +57,7 @@
                         }
 
                         <div class="w-100 text-center mt-4 text">
-                            <a href="#">Return to Home Page</a>
+                            <a href="/ShowCase/Home">Return to Home Page</a>
                         </div>
                     </div>
                 </div>

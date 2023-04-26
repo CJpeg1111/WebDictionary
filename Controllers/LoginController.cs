@@ -19,6 +19,15 @@ namespace WebDictionary.Controllers
         AdminManager am = new AdminManager(new EfAdminDal());
         WriterManager wm = new WriterManager(new EfWriterDal());
 
+        public class CaptchaResponse
+        {
+            [JsonProperty("success")]
+            public bool Success { get; set; }
+
+            [JsonProperty("error-codes")]
+            public List<string> ErrorCodes { get; set; }
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -28,17 +37,40 @@ namespace WebDictionary.Controllers
         [HttpPost]
         public ActionResult Index(string AdminUserName, string AdminPassword)
         {
-            var admin = am.ControlAdmin(AdminUserName, AdminPassword);
-            if (admin != null)
+            var response = Request["g-recaptcha-response"];
+            const string secret = "6LfotoglAAAAAPIBvMHQ48rtJF5x-IfSwXHdzWUs";
+
+            var client = new WebClient();
+            var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
+
+            var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+
+            string act = string.Empty;
+            string cont = string.Empty;
+            if (!captchaResponse.Success)
             {
-                FormsAuthentication.SetAuthCookie(admin.AdminUserName, false);
-                Session["AdminUserName"] = admin.AdminUserName;
-                return RedirectToAction("Index", "AdminCategory");
+                TempData["Message"] = "Lütfen güvenliği doğrulayınız.";
+                act = "Index";
+                cont = "Login";
             }
             else
             {
-                return View();
+                var admin = am.ControlAdmin(AdminUserName, AdminPassword);
+                if (admin != null)
+                {
+                    FormsAuthentication.SetAuthCookie(admin.AdminUserName, false);
+                    Session["AdminUserName"] = admin.AdminUserName;
+                    act = "Index";
+                    cont = "AdminCategory";
+                }
+                else
+                {
+                    TempData["validate"] = "Please make sure your username or password is correct!";
+                    act = "Index";
+                    cont = "Login";
+                }                
             }
+            return RedirectToAction(act, cont); 
         }
 
         [HttpGet]
@@ -46,15 +78,7 @@ namespace WebDictionary.Controllers
         {
             return View();
         }
-
-        public class CaptchaResponse
-        {
-            [JsonProperty("success")]
-            public bool Success { get; set; }
-
-            [JsonProperty("error-codes")]
-            public List<string> ErrorCodes { get; set; }
-        }
+       
 
         [HttpPost]
         public ActionResult WriterLogin(string WriterMail, string WriterPassword)

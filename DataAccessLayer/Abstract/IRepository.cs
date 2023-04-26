@@ -1,6 +1,7 @@
 ﻿using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,5 +18,7 @@ namespace DataAccessLayer.Abstract
         T Get(Expression<Func<T, bool>> filter);
         List<T> List(Expression<Func<T, bool>> filter);
         List<T> List(Expression<Func<T, bool>> filter, Expression<Func<T, DateTime>> order);
+        List<TResult> ListChart<TResult>(Expression<Func<T, int>> groupBy, Expression<Func<IGrouping<int, T>, TResult>> selectExpression);
+
     }
 }

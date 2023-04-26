@@ -139,5 +139,11 @@ namespace WebDictionary.Controllers
             hm.DeleteHeading(heading);
             return RedirectToAction("Index");
         }
+
+        public ActionResult HeadingReport()
+        {
+            var list = hm.GetList();
+            return View(list);
+        }
     }
 }

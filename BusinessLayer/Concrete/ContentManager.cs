@@ -29,17 +29,22 @@ namespace BusinessLayer.Concrete
 
         public Content GetContent(int id)
         {
-           return _contentDal.Get(x=>x.ContentID == id);
+            return _contentDal.Get(x => x.ContentID == id);
         }
 
-        public List<Content> GetList()
+        public List<Content> GetList(string parameter)
         {
-            return _contentDal.List(x => x.ContentRemove == false);
+            return _contentDal.List(x => x.ContentCaption.Contains(parameter));
+        }
+
+        public List<Content> GetListAll()
+        {
+            return _contentDal.List();
         }
 
         public List<Content> GetListById(int id)
         {
-           return _contentDal.List(x=>x.HeadingID == id && x.ContentRemove == false);   
+            return _contentDal.List(x => x.HeadingID == id && x.ContentRemove == false);
         }
 
         public List<Content> GetListByWriterId(int id)
@@ -49,7 +54,7 @@ namespace BusinessLayer.Concrete
 
         public void UpdateContent(Content content)
         {
-           _contentDal.Update(content);
+            _contentDal.Update(content);
         }
     }
 }

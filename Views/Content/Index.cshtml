@@ -1,5 +1,5 @@
 ﻿@using EntityLayer.Concrete
-@model List<Heading>
+@model List<Content>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -13,8 +13,8 @@
         <div class="row mb-0">
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
-                    <li style="margin-top:5px"><i class="fas fa-heading"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Headings</h1></li>
+                    <li style="margin-top:5px"><i class="fas fa-paint-roller"></i></li>
+                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Content</h1></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -33,18 +33,16 @@
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="fas fa-list mr-1"></i>
-                    Heading List
+                    Content List
                 </h3>
                 <div class="card-tools">
-                    <a href="/Heading/HeadingReport" class="btn btn-outline-info btn-sm" style="margin-right:15px"><i class="fas fa-chart-bar"></i> Report</a>
-                    <a href="/Heading/addHeading" class="btn btn-outline-success btn-sm" style="margin-right:15px">New Heading</a>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right:15px">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div><!-- /.card-header -->
             <div class="card-body">
-                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12 col-md-6"></div>
                         <div class="col-sm-12 col-md-6"></div>
@@ -55,11 +53,11 @@
                                 <thead>
                                     <tr role="row">
                                         <th style="width: 1%" class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
-                                        <th style="width: 27%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Heading: activate to sort column ascending">Heading</th>
-                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Writer: activate to sort column ascending">Writer</th>
-                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending">Category</th>
+                                        <th style="width: 30%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Content: activate to sort column ascending">Content</th>
+                                        <th style="width: 20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Heading: activate to sort column ascending">Heading</th>
+                                        <th style="width: 18%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Writer: activate to sort column ascending">Writer</th>
                                         <th style="width: 12%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
-                                        <th style="width: 20%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transiction: activate to sort column ascending">Transiction</th>
+                                        <th style="width: 19%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transaction: activate to sort column ascending">Transaction</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,16 +66,19 @@
                                         if ((Model.IndexOf(item)) % 2 == 0)
                                         {
                                             <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0"> @item.HeadingID</td>
+                                                <td class="sorting_1" tabindex="0"> @item.ContentID</td>
                                                 <td class="">
                                                     <a>
-                                                        @item.HeadingName
+                                                        @item.ContentCaption
                                                     </a>
                                                     <br />
                                                     <small>
-                                                        Created: @(((DateTime)item.HeadingDate).ToString("dd MMM yyyy HH:mm"))
+                                                        Created: @(((DateTime)item.ContentDate).ToString("dd MMM yyyy HH:mm"))
 
                                                     </small>
+                                                </td>
+                                                <td style="">
+                                                    @item.Heading.HeadingName
                                                 </td>
                                                 <td style="">
                                                     @if (item.Writer.WriterImage != null)
@@ -89,41 +90,33 @@
                                                         <img style="height:40px;width:40px;" alt="Avatar" class="table-avatar" src="~/Resources/defaultperson.png"> @item.Writer.WriterName @item.Writer.WriterSurname
                                                     }
                                                 </td>
-                                                <td style="">
-                                                    @item.Category.CategoryName
-                                                </td>
                                                 <td style="" class="project-state">
-                                                    @if (item.HeadingRemove == true)
+                                                    @if (@item.ContentRemove == true)
                                                     {
                                                         <span class="badge badge-danger">Removed</span>
                                                     }
-                                                    @if (item.HeadingRemove == false)
+                                                    @if (@item.ContentRemove == false)
                                                     {
                                                         <span class="badge badge-success">Active</span>
                                                     }
                                                 </td>
                                                 <td style="" class="project-actions text-right">
-                                                    <a class="btn btn-primary btn-sm" href="/Content/ContentByHeading/@item.HeadingID">
-                                                        <i class="fas fa-paint-roller">
+                                                    <a class="btn btn-primary btn-sm" href="#">
+                                                        <i class="fas fa-eye">
                                                         </i>
-                                                        Contents
+                                                        Show
                                                     </a>
-                                                    @if (item.HeadingRemove == true)
+                                                    @if (item.ContentRemove == true)
                                                     {
-                                                        <a class="btn btn-success btn-sm" href="/Heading/Delete/@item.HeadingID">
+                                                        <a class="btn btn-success btn-sm" href="#">
                                                             <i class="fas fa-recycle">
                                                             </i>
                                                             Active
                                                         </a>
                                                     }
-                                                    @if (item.HeadingRemove == false)
-                                                    {
-                                                        <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
-                                                            <i class="fas fa-pencil-alt">
-                                                            </i>
-                                                            Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="/Heading/Delete/@item.HeadingID">
+                                                    @if (item.ContentRemove == false)
+                                                    {                                                        
+                                                        <a class="btn btn-danger btn-sm" href="#">
                                                             <i class="fas fa-trash">
                                                             </i>
                                                             Delete
@@ -135,15 +128,19 @@
                                         else
                                         {
                                             <tr role="row" class="even">
-                                                <td class="sorting_1" tabindex="0"> @item.HeadingID</td>
+                                                <td class="sorting_1" tabindex="0"> @item.ContentID</td>
                                                 <td class="">
                                                     <a>
-                                                        @item.HeadingName
+                                                        @item.ContentCaption
                                                     </a>
                                                     <br />
                                                     <small>
-                                                        Created: @(((DateTime)item.HeadingDate).ToString("dd MMM yyyy HH:mm"))
+                                                        Created: @(((DateTime)item.ContentDate).ToString("dd MMM yyyy HH:mm"))
+
                                                     </small>
+                                                </td>
+                                                <td style="">
+                                                    @item.Heading.HeadingName
                                                 </td>
                                                 <td style="">
                                                     @if (item.Writer.WriterImage != null)
@@ -155,41 +152,33 @@
                                                         <img style="height:40px;width:40px;" alt="Avatar" class="table-avatar" src="~/Resources/defaultperson.png"> @item.Writer.WriterName @item.Writer.WriterSurname
                                                     }
                                                 </td>
-                                                <td style="">
-                                                    @item.Category.CategoryName
-                                                </td>
                                                 <td style="" class="project-state">
-                                                    @if (item.HeadingRemove == true)
+                                                    @if (@item.ContentRemove == true)
                                                     {
                                                         <span class="badge badge-danger">Removed</span>
                                                     }
-                                                    @if (item.HeadingRemove == false)
+                                                    @if (@item.ContentRemove == false)
                                                     {
                                                         <span class="badge badge-success">Active</span>
                                                     }
                                                 </td>
                                                 <td style="" class="project-actions text-right">
-                                                    <a class="btn btn-primary btn-sm" href="/Content/ContentByHeading/@item.HeadingID">
-                                                        <i class="fas fa-paint-roller">
+                                                    <a class="btn btn-primary btn-sm" href="#">
+                                                        <i class="fas fa-eye">
                                                         </i>
-                                                        Contents
+                                                        Show
                                                     </a>
-                                                    @if (item.HeadingRemove == true)
+                                                    @if (item.ContentRemove == true)
                                                     {
-                                                        <a class="btn btn-success btn-sm" href="/Heading/Delete/@item.HeadingID">
+                                                        <a class="btn btn-success btn-sm" href="#">
                                                             <i class="fas fa-recycle">
                                                             </i>
                                                             Active
                                                         </a>
                                                     }
-                                                    @if (item.HeadingRemove == false)
+                                                    @if (item.ContentRemove == false)
                                                     {
-                                                        <a class="btn btn-info btn-sm" href="/Heading/updateHeading/@item.HeadingID">
-                                                            <i class="fas fa-pencil-alt">
-                                                            </i>
-                                                            Edit
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="/Heading/Delete/@item.HeadingID">
+                                                        <a class="btn btn-danger btn-sm" href="#">
                                                             <i class="fas fa-trash">
                                                             </i>
                                                             Delete
@@ -234,5 +223,3 @@
         });
     </script>
 }
-
-

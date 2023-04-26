@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- notify -->
     <link href="~/AdminLTE-3.0.4/plugins/toastr/toastr.min.css" rel="stylesheet" />
-
+    @RenderSection("scriptshead", false)
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -229,19 +229,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/charts/chartjs.html" class="nav-link">
+                                    <a href="/Chart/CategoryHeading" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Pie Chart</p>
+                                        <p>Category-Heading</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/flot.html" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Column Chart</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/inline.html" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Line Chart</p>
                                     </a>
@@ -257,6 +257,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/Heading/HeadingReport" class="nav-link">
+                                <i class="nav-icon fas fa-chart-bar"></i>
+                                <p>
+                                    Reports
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/Contact/Index" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
@@ -265,7 +273,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/Authorization/Index" class="nav-link">
                                 <i class="nav-icon fas fa-id-card-alt"></i>
                                 <p>
                                     Authorizations
@@ -290,19 +298,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/charts/chartjs.html" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Pie Chart</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/flot.html" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Column Chart</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/inline.html" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Line Chart</p>
                                     </a>
@@ -377,6 +385,8 @@
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     @RenderSection("scripts", false)
 </body>

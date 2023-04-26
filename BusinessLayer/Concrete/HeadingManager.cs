@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
+using EntityLayer;
 using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace BusinessLayer.Concrete
         }
 
         public void DeleteHeading(Heading heading)
-        {           
+        {
             _headingDal.Update(heading);
         }
 
@@ -41,6 +42,17 @@ namespace BusinessLayer.Concrete
         public List<Heading> GetListByWriter(int id)
         {
             return _headingDal.List(x => x.WriterID == id);
+        }
+
+     
+        public List<CategoryHeadingChart> ListCategoryHeading()
+        {
+            var result = _headingDal.ListChart(x => x.CategoryID, x => new CategoryHeadingChart
+            {
+                CategorID = x.Key,
+                Count = x.Count()
+            });
+            return result;
         }
 
         public void UpdateHeading(Heading heading)

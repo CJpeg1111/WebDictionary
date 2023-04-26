@@ -88,7 +88,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <a class="scroll" href="#projects">Gallery</a>
                     </li>
                     <li>
-                        <a class="scroll" href="#contact">Contact</a>
+                        <a id="gocontact" class="scroll" href="#contact">Contact</a>
                     </li>
                     <li class="login">
                         <button type="button" class="btn login-btn text-uppercase " data-toggle="modal" data-target="#exampleModalCenter">
@@ -496,7 +496,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="row contact_left_grid">
                             <div class="col-md-6 con-left" data-aos="fade-up">
                                 <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder="Name"})
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = "Name" })
                                     @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
                                 </div>
                                 <div class="form-group">
@@ -660,6 +660,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="text-center">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3189.85977914574!2d30.690889511768376!3d36.91761687209797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c38fdd977ac431%3A0x2b2aba32c10b42c5!2sMemorial%20Antalya%20Hastanesi!5e0!3m2!1str!2str!4v1681828328053!5m2!1str!2str" width="80%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </footer>
     <!--//footer-->
@@ -851,10 +854,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     </script>
     <!--// end-smoth-scrolling -->
-    <!-- //js -->
+    @if (ViewBag.result == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                swal.fire("Error!", "An error occurred, the message could not send.", "error").then(() => {
+                    location.href = '#contact';
+                });
+            });
+        </script>
+    }
 
     <script src="~/AdminLTE-3.0.4/Showcaseweb/js/bootstrap.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>
 
 </html>
