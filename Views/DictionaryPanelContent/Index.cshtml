@@ -1,0 +1,496 @@
+﻿@using DataAccessLayer.EntityFramework
+@using BusinessLayer.Concrete
+@using EntityLayer.Concrete
+@model List<Content>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_DictionaryLayout.cshtml";
+    ContentManager cm = new ContentManager(new EfContentDal(), new EfHeadingDal(), new EfWriterDal());
+
+    HeadingManager hm = new HeadingManager(new EfHeadingDal(), new EfCategoryDal());
+    var heading = hm.GetHeading(ViewBag.headingid);
+
+    WriterManager wm = new WriterManager(new EfWriterDal());
+}
+
+<style>
+    .center-div {
+        display: flex;
+        justify-content: center;
+        font-family: 'Kanit', sans-serif;
+    }
+
+        .center-div .customtext {
+            font-size: 40px;
+            background: linear-gradient(to left, #572ADE 0%, #12A77F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+    .customtext2 {
+        font-size: 16px;
+        background: linear-gradient(to left, #572ADE 0%, #12A77F 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .entry-link {
+        display: none;
+    }
+
+    @@media (max-width: 479.98px) {
+        .custom-img {
+            max-width: 350px;
+            max-height: 240px;
+        }
+    }
+
+    @@media (min-width: 480px) {
+        .custom-img {
+            max-width: 400px;
+            max-height: 300px;
+        }
+    }
+
+    .profile-card {
+        width: 50px;
+        height: 50px;
+        /* */
+        padding: 5px;
+        border-radius: 50%;
+        box-shadow: 0 0 22px #3336;
+        transition: .6s;
+        font-family: 'Kanit', sans-serif;
+        background: linear-gradient(#181A1F,#181A1F) padding-box, linear-gradient(to left,#572ADE,#12A77F) border-box;
+        border: 3px solid #0000;
+    }
+
+        .profile-card:hover {
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            height: 360px;
+            width: 250px;
+            padding: 30px;
+            background: #fff;
+        }
+
+        .profile-card .imgg {
+            width: 100%;
+            height: 100%;
+            transition: .6s;
+            z-index: 10;
+        }
+
+        .profile-card:hover .imgg {
+            transform: translateY(-60px);
+            border-radius: 10px;
+        }
+
+    @@media (max-width: 768px) {
+        .profile-card:hover {
+            height: 470px;
+        }
+    }
+
+    .imgg {
+        width: 100%;
+        border-radius: 50%;
+        /* box-shadow: 0 0 22px #3336;*/
+        transition: .6s;
+    }
+
+    .captionn {
+        text-align: center;
+        transform: translateY(-70px);
+        display: none;
+        transition: .6s;
+        font-family: 'Kanit', sans-serif;
+    }
+
+    .profile-card:hover .captionn {
+        display: block;
+    }
+
+    .captionn h3 {
+        position: relative;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        color: #181A1F;
+        font-size: 28px;
+        font-weight: 400;
+        /* top: -25px;*/
+        margin-block: 20px;
+    }
+
+    .captionn p {
+        position: relative;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        font-size: 15px;
+        color: #9FA0A2;
+        top: -15px
+    }
+
+    .social-links {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        position: relative;
+        top: -20px;
+        margin-top: 20px;
+    }
+
+        .social-links a {
+            margin-top: 10px;
+            background: linear-gradient(to left, #572ADE 0%, #12A77F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-links i {
+            background: linear-gradient(to left, #572ADE 0%, #12A77F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+    .form-group {
+        font-family: 'Kanit', sans-serif;
+        margin-bottom: 50px;
+        padding-inline: 25px;
+    }
+
+        .form-group .form-control {
+            color: #9FA0A2;
+            border: 2px solid #0000;
+            border-radius: 8px;
+            background: linear-gradient(#1d1f24,#1d1f24) padding-box, linear-gradient(to left,#572ADE,#12A77F) border-box;
+        }
+
+            .form-group .form-control:hover {
+                background: linear-gradient(#181A1F,#181A1F) padding-box, linear-gradient(to left,#12A77F,#12A77F) border-box;
+            }
+
+    table {
+        font-family: 'Kanit', sans-serif;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-0">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li style="margin-top:5px"><i style="font-size:24px;" class="fas fa-paint-roller"></i></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> Content's</h1></li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">WebDictionary v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <section class="col-lg-12">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2; border-radius: 30px;">
+            <div class="card-header" style=" margin-top: 10px;">
+                <div class="center-div">
+                    @if (heading.HeadingImage != null)
+                    {
+                        <a href="@Url.Action("GetImageHeading", "DictionaryPanel", new { id = heading.HeadingID })" target="_blank">
+                            <img src="@Url.Action("GetImageHeading", "DictionaryPanel", new { id = heading.HeadingID })" alt="" style=" border-radius: 12px; margin-block: 10px;" class="custom-img">
+                        </a>
+                    }
+                </div>
+                <div class="center-div">
+                    <div class="customtext">@heading.HeadingName</div>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="center-div">
+                        <a class="btn btn-dark custom-button scroll" href="#addcontent" style="background-color: #12A77F;color:white;width:190px;">
+                            <i class="fas fa-pen" style="margin-right:5px;"></i> Write this heading
+                        </a>
+                    </div>
+                }
+            </div><!-- /.card-header -->
+            <div class="card-body" style=" margin-bottom: 10px;">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6"></div>
+                        <div class="col-sm-12 col-md-6"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 tab-pane" id="timeline">
+                            <table id="example1" class="table table-borderless dataTable dtr-inline projects" role="alertdialog" aria-describedby="example2_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="ContentDate: activate to sort column descending" aria-sort="ascending">Contents</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        if ((Model.IndexOf(item)) % 2 == 0)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td style="margin: 0px; padding: 0px; position: relative;" class="info-cell" data-user-id="@item.WriterID">
+                                                    <div class="timeline timeline-inverse" style="margin:0px;padding:0px;">
+                                                        <div class="time-label">
+                                                            <span class="bg-indigo">
+                                                                @(((DateTime)item.ContentDate).ToString("dd MMM yyyy"))
+                                                            </span>
+                                                        </div>
+                                                        <!-- /.timeline-label -->
+                                                        <!-- timeline item -->
+                                                        <div style="margin: 0px; padding: 0px;">
+                                                            <div class="profile-card" style="margin-left: 9px; position: relative; z-index: 999; ">
+                                                                <div class="img">
+                                                                    @if (item.Writer.WriterImage != null)
+                                                                    {
+                                                                        <img alt="Avatar" class="imgg" src="@Url.Action("GetImageWriter", "DictionaryPanel", new { id = item.WriterID })" oncontextmenu="return false">
+                                                                    }
+                                                                    @if (item.Writer.WriterImage == null)
+                                                                    {
+                                                                        <img alt="Avatar" class="imgg" src="~/Resources/defaultperson.png" oncontextmenu="return false">
+                                                                    }
+                                                                </div>
+                                                                <div class="captionn">
+                                                                    <a href="#"><h3>@item.Writer.WriterName @item.Writer.WriterSurname</h3></a>
+                                                                    <p>@item.Writer.WriterTitle</p>
+                                                                    <div class="social-links">
+                                                                        <div class="row info-container" style="background-color: ghostwhite; border-radius: 8px; padding: 10px; "></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-item" style="background-color: #1d1f24; border-color: #181A1F; color: #d0d2d6; top: -30px; margin-left: 70px; ">
+                                                                <span class="time"><i class="far fa-clock"></i> @(((DateTime)item.ContentDate).ToString("HH:mm"))</span>
+                                                                <h3 class="timeline-header" style="border-color: #181A1F; color: #d0d2d6 ">Written by <a href="#" style="color: #12A77F;">@item.Writer.WriterName @item.Writer.WriterSurname</a></h3>
+                                                                <div class="timeline-body">
+                                                                    @item.ContentCaption
+                                                                </div>
+                                                                <div class="timeline-footer">
+                                                                    <div style="text-align:right;">
+                                                                        <input type="text" class="entry-link" value="https://localhost:44300/DictionaryPanelContent/ContentLink/@item.ContentID">
+                                                                        <button type="button" class="btn btn-dark custom-button copy-button" style="width:40px;">
+                                                                            <i class="far fa-copy"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- END timeline item -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr role="row" class="even">
+                                                <td style="margin: 0px; padding: 0px; position: relative;" class="info-cell" data-user-id="@item.WriterID">
+                                                    <div class="timeline timeline-inverse" style="margin:0px;padding:0px;">
+                                                        <div class="time-label">
+                                                            <span class="bg-indigo">
+                                                                @(((DateTime)item.ContentDate).ToString("dd MMM yyyy"))
+                                                            </span>
+                                                        </div>
+                                                        <!-- /.timeline-label -->
+                                                        <!-- timeline item -->
+                                                        <div style="margin: 0px; padding: 0px;">
+                                                            <div class="profile-card" style="margin-left: 9px; position: relative; z-index: 999; ">
+                                                                <div class="img">
+                                                                    @if (item.Writer.WriterImage != null)
+                                                                    {
+                                                                        <img alt="Avatar" class="imgg" src="@Url.Action("GetImageWriter", "DictionaryPanel", new { id = item.WriterID })" oncontextmenu="return false">
+                                                                    }
+                                                                    @if (item.Writer.WriterImage == null)
+                                                                    {
+                                                                        <img alt="Avatar" class="imgg" src="~/Resources/defaultperson.png" oncontextmenu="return false">
+                                                                    }
+                                                                </div>
+                                                                <div class="captionn">
+                                                                    <a href="#"><h3>@item.Writer.WriterName @item.Writer.WriterSurname</h3></a>
+                                                                    <p>@item.Writer.WriterTitle</p>
+                                                                    <div class="social-links">
+                                                                        <div class="row info-container" style="background-color: ghostwhite; border-radius: 8px; padding: 10px; "></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="timeline-item" style="background-color: #1d1f24; border-color: #181A1F; color: #d0d2d6; top: -30px; margin-left: 70px;">
+                                                                <span class="time"><i class="far fa-clock"></i> @(((DateTime)item.ContentDate).ToString("HH:mm"))</span>
+                                                                <h3 class="timeline-header" style="border-color: #181A1F; color: #d0d2d6 ">Written by <a href="#" style="color: #12A77F;">@item.Writer.WriterName @item.Writer.WriterSurname</a></h3>
+                                                                <div class="timeline-body">
+                                                                    @item.ContentCaption
+                                                                </div>
+                                                                <div class="timeline-footer">
+                                                                    <div style="text-align:right;">
+                                                                        <input type="text" class="entry-link" value="https://localhost:44300/DictionaryPanelContent/ContentLink/@item.ContentID">
+                                                                        <button type="button" class="btn btn-dark custom-button copy-button" style="width:40px;">
+                                                                            <i class="far fa-copy"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- END timeline item -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <section id="addcontent">
+                    <div class="card-footer" style=" margin-bottom: 10px; font-family: 'Kanit', sans-serif; }">
+                        @Html.Action("addContentPartial", "DictionaryPanelContent", new { id = ViewBag.headingid })
+                    </div>
+                </section>
+            }
+        </div>
+    </section>
+</div>
+
+
+@section scripts{
+
+    <script>
+        var copyButtons = document.querySelectorAll(".copy-button");
+
+        copyButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                var entryLinkInput = this.parentNode.querySelector(".entry-link");
+                var entryLink = entryLinkInput.value;
+
+                copyToClipboard(entryLink);
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Content link copied.'
+                })
+            });
+        });
+
+        function copyToClipboard(text) {
+            var tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var textarea = $("#ContentCaption");
+            var charCount = $("#charCount");
+
+            textarea.on("input", function () {
+                var textLength = textarea.val().length;
+                charCount.text(textLength + "/1000");
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        $('#myForm').submit(function(event) {
+            event.preventDefault(); // Form submitini engelle
+
+            $.ajax({
+                url: $(this).attr('action'), // Formun action'ını al
+                type: $(this).attr('method'), // Formun methodunu al
+                data: $(this).serialize(), // Form verilerini al ve ajax isteği ile gönder
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Added!',
+                        text: 'The Content was added successfully.',
+                        icon: 'success'
+                    }).then(() => {
+                         var redirectUrl = '@Url.Action("Index", "DictionaryPanelContent")';
+                    window.location.href = redirectUrl;
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: status + '!',
+                        text: 'An error occurred, Content could not be added. Please make sure that this field is not blank or less than 3 characters!' + error,
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+    });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".info-cell").each(function () {
+                var userID = $(this).data("user-id");
+                var infoCell = $(this).find(".info-container");
+                var url = '@Url.Action("GetInfobyWriter", "DictionaryPanelContent")' + '/' + userID;
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (data) {                       
+                        var html = `
+                           <div class="row">
+                                <div class="col-md-4">
+                                    <div style="display: grid; place-items: center; height: 100%; max-width: 100%;margin-inline:15px;">
+                                        <i style="font-size:24px;" class="fas fa-heading"></i>
+                                        <a class="heading-count">${data[0]}</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="display: grid; place-items: center; height: 100%; max-width: 100%; margin-inline: 15px;">
+                                        <i style="font-size:24px;" class="fas fa-paint-roller"></i>
+                                        <a class="content-count">${data[1]}</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="display: grid; place-items: center; height: 100%; max-width: 100%; margin-inline: 15px;">
+                                        <i style="font-size:24px;" class="fas fa-th"></i>
+                                        <a class="category-count">${data[2]}</a>
+                                    </div>
+                                </div>
+                            </div>`;
+                        infoCell.html(html);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        
+                    }
+                });
+            });
+        });
+    </script>
+}
+

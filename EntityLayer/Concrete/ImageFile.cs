@@ -15,7 +15,8 @@ namespace EntityLayer.Concrete
         [StringLength(100)]
         public string ImageName { get; set; }
 
-        [StringLength(250)]
-        public string ImagePath { get; set; }
+        public byte[] ImagePath { get; set; }
+
+        public bool ImageRemove { get; set; }
     }
 }

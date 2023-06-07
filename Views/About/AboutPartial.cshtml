@@ -1,59 +1,253 @@
-﻿@model EntityLayer.Concrete.About
+﻿@using EntityLayer.Concrete
+@model List<About>
 
-<button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal" id="btn_modal" name="btn_modal">
-    New About
-</button>
-
-<div class="modal fade" id="modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add New About</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-0">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li style="margin-top:5px"><i class="fas fa-info"></i></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> About Us</h1></li>
+                </ol>
             </div>
-            <div class="modal-body">
-                @using (Html.BeginForm("addAbout", "About", FormMethod.Post))
-                {
-                    <div class="form-group">
-                        @Html.Label("Detail 1")
-                        @Html.TextAreaFor(x => x.Details1, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Details1, "", new { @style = "color:red" })
-                        <br />
-                        @Html.Label("Detail 2")
-                        @Html.TextAreaFor(x => x.Details2, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Details2, "", new { @style = "color:red" })
-                        <br />
-                        @Html.Label("Image 1")
-                        @Html.TextBoxFor(x => x.Image1, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Image1, "", new { @style = "color:red" })
-                        <br />
-                        @Html.Label("Image 2")
-                        @Html.TextBoxFor(x => x.Image2, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Image2, "", new { @style = "color:red" })
-                        <br />
-                        <button class="btn btn-success" style="margin-top:10px">Add About</button>
-                    </div>
-                }
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">WebDictionary v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
 </div>
 
+<div class="row">
+    <section class="col-lg-12">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-list mr-1"></i>
+                    About List
+                </h3>
+                <div class="card-tools">
+                    @if (User.IsInRole("A"))
+                    {
+                        <a href="/About/AboutReport" class="btn btn-outline-info btn-sm" style="margin-right:15px"><i class="fas fa-chart-bar"></i> Report</a>
+                    }
+                    <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#insertmodal" id="btn_modal" name="btn_modal">
+                        <i class="fas fa-plus-circle"></i> New About
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right:15px">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6"></div>
+                        <div class="col-sm-12 col-md-6"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-borderless table-hover table-dark dataTable dtr-inline" role="grid" aria-describedby="example2_info" style="background-color: #181A1F; color: #9FA0A2;">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="width: 1%" class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
+                                        <th style="width: 23%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 1: activate to sort column ascending">Detail 1</th>
+                                        <th style="width: 45%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Detail 2: activate to sort column ascending">Detail 2</th>
+                                        <th style="width: 12%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                                        <th style="width: 19%" class="sorting text-center" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transaction: activate to sort column ascending">Transaction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        if ((Model.IndexOf(item)) % 2 == 0)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1" tabindex="0">@item.ID</td>
+                                                <td class="">
+                                                    @if (item.Details1.Length <= 40)
+                                                    {
+                                                        <a>@item.Details1</a>
+                                                    }
+                                                    @if (item.Details1.Length > 40)
+                                                    {
+                                                        <a>@item.Details1.Substring(0, 40)...</a>
+                                                    }
+                                                </td>
+                                                <td style="">
+                                                    @if (item.Details2.Length <= 80)
+                                                    {
+                                                        <a>@item.Details2</a>
+                                                    }
+                                                    @if (item.Details2.Length > 80)
+                                                    {
+                                                        <a>@item.Details2.Substring(0, 80)...</a>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-state">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <span class="badge badge-danger">Removed</span>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <span class="badge badge-success">Active</span>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-actions text-right">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" style="background-color: #6F2CF3; border-color: #6F2CF3 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item show-details" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-eye">
+                                                                        </i>
+                                                                        Show
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <a class="btn btn-success" href="/About/Delete/@item.ID">
+                                                                <i class="fas fa-recycle">
+                                                                </i>
+                                                                Active
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" style="background-color: #6F2CF3; border-color: #6F2CF3 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item show-details" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-eye">
+                                                                        </i>
+                                                                        Show
+                                                                    </a>
+                                                                </li>
+                                                                <li><hr class="dropdown-divider"></li>
+                                                                <li>
+                                                                    <a class="dropdown-item update-about" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-edit">
+                                                                        </i>
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <button class="btn btn-danger delete-about" data-id=@item.ID>
+                                                                <i class="fas fa-trash">
+                                                                </i> Delete
+                                                            </button>
+                                                        </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1" tabindex="0">@item.ID</td>
+                                                <td class="">
+                                                    @if (item.Details1.Length <= 40)
+                                                    {
+                                                        <a>@item.Details1</a>
+                                                    }
+                                                    @if (item.Details1.Length > 40)
+                                                    {
+                                                        <a>@item.Details1.Substring(0, 40)...</a>
+                                                    }
+                                                </td>
+                                                <td style="">
+                                                    @if (item.Details2.Length <= 80)
+                                                    {
+                                                        <a>@item.Details2</a>
+                                                    }
+                                                    @if (item.Details2.Length > 80)
+                                                    {
+                                                        <a>@item.Details2.Substring(0, 80)...</a>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-state">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <span class="badge badge-danger">Removed</span>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <span class="badge badge-success">Active</span>
+                                                    }
+                                                </td>
+                                                <td style="" class="project-actions text-right">
+                                                    @if (item.AboutRemove == true)
+                                                    {
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" style="background-color: #6F2CF3; border-color: #6F2CF3 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item show-details" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-eye">
+                                                                        </i>
+                                                                        Show
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <a class="btn btn-success" href="/About/Delete/@item.ID">
+                                                                <i class="fas fa-recycle">
+                                                                </i>
+                                                                Active
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                    @if (item.AboutRemove == false)
+                                                    {
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" style="background-color: #6F2CF3; border-color: #6F2CF3 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Action
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item show-details" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-eye">
+                                                                        </i>
+                                                                        Show
+                                                                    </a>
+                                                                </li>
+                                                                <li><hr class="dropdown-divider"></li>
+                                                                <li>
+                                                                    <a class="dropdown-item update-about" href="#" data-id=@item.ID>
+                                                                        <i class="fas fa-edit">
+                                                                        </i>
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <button class="btn btn-danger delete-about" data-id=@item.ID>
+                                                                <i class="fas fa-trash">
+                                                                </i> Delete
+                                                            </button>
+                                                        </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
-@if (ViewBag.okay == false)
-{
-    @section scripts {
-        <script>
-            $(document).ready(function () {
-                $("#btn_modal").click();
-                //*ya da
-                //$("#btn_1").trigger("click");
-            });
-        </script>
-    }
-
-}

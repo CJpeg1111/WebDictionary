@@ -14,6 +14,8 @@ namespace BusinessLayer.Abstract
         List<Message> GetListInboxRemoved(string ReceiverMail);
         List<Message> GetListSendboxRemoved(string SenderMail);
         List<Message> GetListInboxNotRead(string ReceiverMail);
+        List<Message> GetListReceiver(string ReceiverMail);
+        List<Message> GetListSender(string SenderMail);
         void AddMessage(Message message);
         Message GetMessage(int id);
         void DeleteMessage(Message message);

@@ -37,6 +37,11 @@ namespace BusinessLayer.Concrete
             return _imageFile.List();
         }
 
+        public List<ImageFile> GetListActive()
+        {
+            return _imageFile.List(x => x.ImageRemove == false);
+        }
+
         public void UpdateImageFile(ImageFile imageFile)
         {
             _imageFile.Update(imageFile);

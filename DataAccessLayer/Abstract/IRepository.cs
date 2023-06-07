@@ -19,6 +19,6 @@ namespace DataAccessLayer.Abstract
         List<T> List(Expression<Func<T, bool>> filter);
         List<T> List(Expression<Func<T, bool>> filter, Expression<Func<T, DateTime>> order);
         List<TResult> ListChart<TResult>(Expression<Func<T, int>> groupBy, Expression<Func<IGrouping<int, T>, TResult>> selectExpression);
-
+        T GetFirstOrDefaultInclude(Expression<Func<T, bool>> filter,params Expression<Func<T, object>>[] children);
     }
 }

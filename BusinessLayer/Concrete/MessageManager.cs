@@ -42,6 +42,11 @@ namespace BusinessLayer.Concrete
             return _messageDal.List(x => x.ReceiverMail == ReceiverMail && x.Remove == true, x => x.MessageDate);
         }
 
+        public List<Message> GetListReceiver(string ReceiverMail)
+        {
+            return _messageDal.List(x => x.ReceiverMail == ReceiverMail);
+        }
+
         public List<Message> GetListSendbox(string SenderMail)
         {
             return _messageDal.List(x => x.SenderMail == SenderMail && x.Remove == false, x => x.MessageDate);
@@ -50,6 +55,11 @@ namespace BusinessLayer.Concrete
         public List<Message> GetListSendboxRemoved(string SenderMail)
         {
             return _messageDal.List(x => x.SenderMail == SenderMail && x.Remove == true, x => x.MessageDate);
+        }
+
+        public List<Message> GetListSender(string SenderMail)
+        {
+            return _messageDal.List(x => x.SenderMail == SenderMail);
         }
 
         public Message GetMessage(int id)

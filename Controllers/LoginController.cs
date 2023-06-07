@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -38,7 +40,7 @@ namespace WebDictionary.Controllers
         public ActionResult Index(string AdminUserName, string AdminPassword)
         {
             var response = Request["g-recaptcha-response"];
-            const string secret = "6LfotoglAAAAAPIBvMHQ48rtJF5x-IfSwXHdzWUs";
+            const string secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
             var client = new WebClient();
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
@@ -49,13 +51,21 @@ namespace WebDictionary.Controllers
             string cont = string.Empty;
             if (!captchaResponse.Success)
             {
-                TempData["Message"] = "Lütfen güvenliği doğrulayınız.";
+                TempData["Message"] = "Please verify security.";
                 act = "Index";
                 cont = "Login";
             }
             else
             {
-                var admin = am.ControlAdmin(AdminUserName, AdminPassword);
+                string hashedPassword;
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(AdminPassword);
+                using (SHA256 sha256 = SHA256.Create())
+                {
+                    byte[] hashedPasswordBytes = sha256.ComputeHash(passwordBytes);
+                    hashedPassword = Convert.ToBase64String(hashedPasswordBytes);
+                }
+
+                var admin = am.ControlAdmin(AdminUserName, hashedPassword);
                 if (admin != null)
                 {
                     FormsAuthentication.SetAuthCookie(admin.AdminUserName, false);
@@ -81,10 +91,10 @@ namespace WebDictionary.Controllers
        
 
         [HttpPost]
-        public ActionResult WriterLogin(string WriterMail, string WriterPassword)
+        public ActionResult WriterLogin(string WriterMail, string WriterPassword, bool? RememberMe)
         {
             var response = Request["g-recaptcha-response"];
-            const string secret = "6LfotoglAAAAAPIBvMHQ48rtJF5x-IfSwXHdzWUs";
+            const string secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
             var client = new WebClient();
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
@@ -95,15 +105,34 @@ namespace WebDictionary.Controllers
             string cont = string.Empty;
             if (!captchaResponse.Success)
             {
-                TempData["Message"] = "Lütfen güvenliği doğrulayınız.";
+                TempData["Message"] = "Please verify security.";
+                act = "WriterLogin";
+                cont = "Login";
             }
             else
-            {              
-                var writer = wm.ControlWriter(WriterMail, WriterPassword);
+            {
+                string hashedPassword;
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(WriterPassword);
+                using (SHA256 sha256 = SHA256.Create())
+                {
+                    byte[] hashedPasswordBytes = sha256.ComputeHash(passwordBytes);
+                    hashedPassword = Convert.ToBase64String(hashedPasswordBytes);
+                }
+                var writer = wm.ControlWriter(WriterMail, hashedPassword);
                 if (writer != null)
                 {
-                    FormsAuthentication.SetAuthCookie(writer.WriterMail, false);
+                    bool remember = RememberMe ?? false;
+
+                    if (remember)
+                    {
+                        FormsAuthentication.SetAuthCookie(writer.WriterMail, false);                        
+                    }
+                    else
+                    {
+                        FormsAuthentication.SetAuthCookie(writer.WriterMail, true);                                         
+                    }
                     Session["WriterMail"] = writer.WriterMail;
+
                     act = "WriterProfile";
                     cont = "WriterPanel";
                 }
@@ -112,7 +141,7 @@ namespace WebDictionary.Controllers
                     TempData["validate"] = "Please make sure your username or password is correct!";
                     act = "WriterLogin";
                     cont = "Login";
-                }                
+                }               
             }
             return RedirectToAction(act, cont);
         }

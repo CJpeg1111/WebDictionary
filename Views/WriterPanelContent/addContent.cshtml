@@ -3,6 +3,16 @@
     ViewBag.Title = "addContent";
     Layout = "~/Views/Shared/_WriterLayout.cshtml";
 }
+<style>
+    .customtext {
+        display: inline-block;
+        font-size: 32px;
+        background: linear-gradient(to left, #572ADE 0%,#12A77F 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
 
 <div class="content-header">
     <div class="container-fluid">
@@ -10,7 +20,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li style="margin-top:5px"><i class="fas fa-paint-roller"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> My Content</h1></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> My Content</h1></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -24,11 +34,11 @@
 
 <div class="row">
     <section class="col-lg-6" style="position: relative; margin: auto;">
-        <div class="card bg-gradient-gray-dark">
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2;">
             <div class="card-header border-0">
                 <h3 class="card-title">
                     <i class="fas fa-heading mr-1"></i>
-                    Add New Content to <span class="badge badge-warning">@ViewBag.heading</span>
+                    Add New Content
                 </h3>
                 <div class="card-tools">
                     <a href="/WriterPanel/AllHeading" class="btn bg-gray-dark btn-sm">
@@ -37,15 +47,28 @@
                 </div>
             </div>
             <div class="card-body">
+                @{ string heading = ViewBag.heading;
+                    if (heading.Length > 35)
+                    {
+                        heading = heading.Substring(0, 35)+"...";
+                    }
+                }
+                <div class="customtext">
+                    @heading
+                </div>
+                <br /><br />
                 @using (Html.BeginForm("addContent", "WriterPanelContent", FormMethod.Post))
                 {
                     <div class="form-group">
                         @Html.Label("Content Caption")
-                        @Html.TextAreaFor(x => x.ContentCaption,4,30, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.ContentCaption, "", new { @style = "color:orange" })
+                        @Html.TextAreaFor(x => x.ContentCaption, 15, 40, new { @class = "form-control", @maxlength = "1000" })
+                        <p id="charCount">0/1000</p>
+                        @Html.ValidationMessageFor(x => x.ContentCaption, "", new { @style = "color:red" })
                         <br />
-                        <input type="hidden" name="HeadingID" value="@ViewBag.id"/>
-                        <button class="btn btn-outline-light" style="margin-top:10px">Add Content</button>
+                        <input type="hidden" name="HeadingID" value="@ViewBag.id" />
+                        <div style="text-align: right;">
+                            <button class="btn btn-outline-light custom-button" style="margin-top:10px;">Add Content</button>
+                        </div>
                     </div>
                 }
             </div>
@@ -55,5 +78,22 @@
 </div>
 
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#Allheading').addClass('active');
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var textarea = $("#ContentCaption");
+            var charCount = $("#charCount");
 
+            textarea.on("input", function () {
+                var textLength = textarea.val().length;
+                charCount.text(textLength + "/1000");
+            });
+        });
+    </script>
+}
 

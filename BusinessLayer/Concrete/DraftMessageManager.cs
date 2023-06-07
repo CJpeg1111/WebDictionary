@@ -38,6 +38,16 @@ namespace BusinessLayer.Concrete
             return _draftMessageDal.List(x => x.DraftSenderMail == DraftSenderMail, x => x.DraftMessageDate);
         }
 
+        public List<DraftMessage> GetListReceiver(string DraftReceiverMail)
+        {
+            return _draftMessageDal.List(x => x.DraftReceiverMail == DraftReceiverMail);
+        }
+
+        public List<DraftMessage> GetListSender(string DraftSenderMail)
+        {
+            return _draftMessageDal.List(x => x.DraftSenderMail == DraftSenderMail);
+        }
+
         public void UpdateDraftMessage(DraftMessage draftMessage)
         {
            _draftMessageDal.Update(draftMessage);

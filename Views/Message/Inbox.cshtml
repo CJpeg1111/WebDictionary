@@ -5,14 +5,13 @@
     ViewBag.Title = "Inbox";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-0">
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li style="margin-top:5px"><i class="fas fa-edit"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Contact & Messages </h1></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> Contact & Messages </h1></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -28,14 +27,13 @@
 <div class="row">
     <section class="col-lg-12">
         <!-- Custom tabs (Charts with tabs)-->
-        <div class="card">
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2;">
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="fas fa-mail-bulk mr-1"></i>
                     Mailbox
                 </h3>
                 <div class="card-tools">
-
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right:15px">
                         <i class="fas fa-minus"></i>
                     </button>
@@ -50,10 +48,9 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-9">
-                            <div class="card card-primary card-outline">
+                            <div class="card card-primary card-outline" style="background-color: #181A1F; color: #9FA0A2;">
                                 <div class="card-header">
                                     <h3 class="card-title">Inbox</h3>
-
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control" placeholder="Search Mail">
@@ -77,15 +74,6 @@
                                             <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
                                         </div>
                                         <!-- /.btn-group -->
-                                        <div class="float-right">
-                                            1-50/200
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
-                                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
-                                            </div>
-                                            <!-- /.btn-group -->
-                                        </div>
-                                        <!-- /.float-right -->
                                     </div>
                                     <div class="table-responsive mailbox-messages">
                                         <table class="table table-hover">
@@ -94,7 +82,7 @@
                                                 {
                                                     if (item.IsRead == true)
                                                     {
-                                                        <tr>
+                                                        <tr style="background-color: #181A1F; color: #9FA0A2;">
                                                             <td>
                                                                 <div class="icheck-primary">
                                                                     <input type="checkbox" value="" id=@item.MessageId>
@@ -104,15 +92,15 @@
                                                             <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                                                             <td class="mailbox-name"><a href="/Message/inboxDetails/@item.MessageId">@item.SenderMail</a></td>
                                                             <td class="mailbox-subject">
-                                                                <a style="color:black" href="/Message/inboxDetails/@item.MessageId">@item.Subject -</a>
+                                                                <a style="color: #9FA0A2" href="/Message/inboxDetails/@item.MessageId">@item.Subject -</a>
                                                                 @{ string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);}
-                                                                @if (cleanText.Length + item.Subject.Length <= 90)
+                                                                @if (cleanText.Length + item.Subject.Length <= 50)
                                                                 {
-                                                                    <a style="color:black" href="/Message/inboxDetails/@item.MessageId">@cleanText</a>}
-                                                                @if (cleanText.Length + item.Subject.Length > 90)
+                                                                    <a style="color: #9FA0A2" href="/Message/inboxDetails/@item.MessageId">@cleanText</a>}
+                                                                @if (cleanText.Length + item.Subject.Length > 50)
                                                                 {
-                                                                    int sub = 90 - item.Subject.Length;
-                                                                    <a style="color:black" href="/Message/inboxDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
+                                                                    int sub = 50 - item.Subject.Length;
+                                                                    <a style="color: #9FA0A2" href="/Message/inboxDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
                                                                 }
                                                             </td>
                                                             @*<td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>*@
@@ -131,7 +119,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <tr style="background-color: #EAF1FB">
+                                                        <tr style="background-color: #343A40; color: #9FA0A2;">
                                                             <td>
                                                                 <div class="icheck-primary">
                                                                     <input type="checkbox" value="" id=@item.MessageId>
@@ -141,14 +129,14 @@
                                                             <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                                                             <td class="mailbox-name"><a href="/Message/inboxDetails/@item.MessageId"><b>@item.SenderMail</b></a></td>
                                                             <td class="mailbox-subject">
-                                                                <a style="color:black" href="/Message/inboxDetails/@item.MessageId"><b>@item.Subject</b> -</a>
+                                                                <a style="color:white" href="/Message/inboxDetails/@item.MessageId"><b>@item.Subject</b> -</a>
                                                                 @{ string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);}
-                                                                @if (cleanText.Length + item.Subject.Length <= 90)
-                                                                {<a style="color:black" href="/Message/inboxDetails/@item.MessageId">@cleanText</a>}
-                                                                @if (cleanText.Length + item.Subject.Length > 90)
+                                                                @if (cleanText.Length + item.Subject.Length <= 50)
+                                                                {<a style="color: white" href="/Message/inboxDetails/@item.MessageId">@cleanText</a>}
+                                                                @if (cleanText.Length + item.Subject.Length > 50)
                                                                 {
-                                                                    int sub = 90 - item.Subject.Length;
-                                                                    <a style="color:black" href="/Message/inboxDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
+                                                                    int sub = 50 - item.Subject.Length;
+                                                                    <a style="color: white" href="/Message/inboxDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
                                                                 }
                                                             </td>
                                                             @*<td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>*@
@@ -183,15 +171,6 @@
                                             <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
                                         </div>
                                         <!-- /.btn-group -->
-                                        <div class="float-right">
-                                            1-50/200
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
-                                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
-                                            </div>
-                                            <!-- /.btn-group -->
-                                        </div>
-                                        <!-- /.float-right -->
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +224,13 @@
                     $this.toggleClass('fa-star-o')
                 }
             })
-        })</script>
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Contact').addClass('active');
+        });
+    </script>
 }
 
 

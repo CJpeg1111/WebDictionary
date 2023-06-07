@@ -35,12 +35,17 @@ namespace BusinessLayer.Concrete
 
         public List<Category> GetList()
         {
+            return _categoryDal.List(x => x.CategoryStatus == false);
+        }
+
+        public List<Category> GetListAll()
+        {
             return _categoryDal.List();
         }
 
         public void UpdateCategory(Category category)
         {
-           _categoryDal.Update(category);
+            _categoryDal.Update(category);
         }
     }
 }

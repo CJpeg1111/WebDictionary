@@ -2,6 +2,7 @@
 using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -14,63 +15,47 @@ namespace WebDictionary.Controllers
     public class WriterController : Controller
     {
         WriterManager wm = new WriterManager(new EfWriterDal());
-        WriterValidator validator = new WriterValidator();
 
         public ActionResult Index()
+        {
+            var list = wm.GetList();
+            return View(list);
+        }
+
+        [Authorize(Roles = "A")]
+        public ActionResult Delete(int id)
+        {
+            var writer = wm.GetWriter(id);
+            if (writer.WriterRemove == true)
+            {
+                writer.WriterRemove = false;
+            }
+            else
+            {
+                writer.WriterRemove = true;
+            }
+            wm.UpdateWriter(writer);
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "A")]
+        public ActionResult WriterReport()
         {
             var writerlist = wm.GetList();
             return View(writerlist);
         }
 
-        [HttpGet]
-        public ActionResult addWriter()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult addWriter(Writer writer)
-        {
-            ValidationResult results = validator.Validate(writer);
-            if (results.IsValid)
-            {
-                wm.AddWriter(writer);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                foreach (var item in results.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-                return View();
-            }
-        }
-
-        [HttpGet]
-        public ActionResult updateWriter(int id)
+        public ActionResult GetImage(int id)
         {
             var writer = wm.GetWriter(id);
-            return View(writer);
+            return File(writer.WriterImage, "image/jpeg"); // Görüntüyü byte dizisi olarak döndürme
         }
 
-        [HttpPost]
-        public ActionResult updateWriter(Writer writer)
-        {           
-            ValidationResult results = validator.Validate(writer);
-            if (results.IsValid)
-            {
-                wm.UpdateWriter(writer);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                foreach (var item in results.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-                return View();
-            }
+        [HttpGet]
+        public JsonResult Show(int id)
+        {
+            var writer = wm.GetWriter(id);
+            return Json(writer, JsonRequestBehavior.AllowGet);
         }
     }
 }

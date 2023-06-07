@@ -24,7 +24,7 @@ namespace BusinessLayer.Concrete
 
         public Admin ControlAdmin(string AdminUserName, string AdminPassword)
         {
-            return _adminDal.Get(x => x.AdminUserName == AdminUserName && x.AdminPassword == AdminPassword);
+            return _adminDal.Get(x => x.AdminUserName == AdminUserName && x.AdminPassword == AdminPassword && x.AdminStatus == false);
         }
 
         public void DeleteAdmin(Admin admin)
@@ -45,6 +45,11 @@ namespace BusinessLayer.Concrete
         public List<Admin> GetList()
         {
             return _adminDal.List();
+        }
+
+        public Admin IsMailExist(string AdminUserName)
+        {
+            return _adminDal.Get(x => x.AdminUserName == AdminUserName);
         }
 
         public void UpdateAdmin(Admin admin)

@@ -25,7 +25,7 @@ namespace BusinessLayer.Concrete
 
         public Writer ControlWriter(string WriterMail, string WriterPassword)
         {
-            return _writerDal.Get(x => x.WriterMail == WriterMail && x.WriterPassword == WriterPassword);
+            return _writerDal.Get(x => x.WriterMail == WriterMail && x.WriterPassword == WriterPassword && x.WriterRemove == false);
         }
 
         public void DeleteWriter(Writer writer)
@@ -45,7 +45,7 @@ namespace BusinessLayer.Concrete
 
         public Writer GetWriterIdByMail(string WriterMail)
         {
-            return _writerDal.Get(x => x.WriterMail == WriterMail);
+            return _writerDal.Get(x => x.WriterMail == WriterMail && x.WriterRemove == false);
         }
 
         public void UpdateWriter(Writer writer)

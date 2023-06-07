@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,6 +32,15 @@ namespace DataAccessLayer.Concrete.Repositories
         public T Get(Expression<Func<T, bool>> filter)
         {
             return _object.SingleOrDefault(filter);
+        }
+
+        public T GetFirstOrDefaultInclude(Expression<Func<T, bool>> filter, Expression<Func<T, object>>[] children)
+        {
+            var query = _object.FirstOrDefault();
+            foreach (var child in children)
+                query = _object.Include(child).Where(filter).FirstOrDefault();
+
+            return query;
         }
 
         public void Insert(T p)

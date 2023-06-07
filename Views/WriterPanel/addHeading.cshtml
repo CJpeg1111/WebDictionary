@@ -3,6 +3,15 @@
     ViewBag.Title = "addHeading";
     Layout = "~/Views/Shared/_WriterLayout.cshtml";
 }
+<style>
+    .customtext {
+        display: inline-block;
+        font-size: 15px;
+        background: linear-gradient(to left, #572ADE 0%,#12A77F 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
 
 <div class="content-header">
     <div class="container-fluid">
@@ -10,7 +19,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li style="margin-top:5px"><i class="fas fa-heading"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> My Headings</h1></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> My Headings</h1></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -24,7 +33,7 @@
 
 <div class="row">
     <section class="col-lg-6" style="position: relative; margin: auto;">
-        <div class="card bg-gradient-gray-dark">
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2;">
             <div class="card-header border-0">
                 <h3 class="card-title">
                     <i class="fas fa-heading mr-1"></i>
@@ -37,18 +46,36 @@
                 </div>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("addHeading", "WriterPanel", FormMethod.Post))
+                <div class="customtext">
+                    ✰ Here you can create a new title. People can write content under your title. Please let's take care that the category and the title are related to each other and we will take care to create a title that will not harm personal values.
+                </div>
+                <br />
+                <br />
+                @using (Html.BeginForm("addHeading", "WriterPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <div class="form-group">
                         @Html.Label("Heading Name")
-                        @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control", @maxlength = "50" })
+                        <p id="charCount">0/50</p>
                         @Html.ValidationMessageFor(x => x.HeadingName, "", new { @style = "color:orange" })
                         <br />
                         @Html.Label("Category")
                         @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.ctglist, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:orange" })
+                        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:red" })
                         <br />
-                        <button class="btn btn-outline-light" style="margin-top:10px">Add Heading</button>
+                        <img src="~/Resources/noimages.png" alt="" style="max-width: 190px; max-height: 100px;" id="ImagePathIn">
+                        <br />
+                        <br />
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" accept="image/.jpg,.jpeg,.png" name="imageFile" onchange="readImageIn(this);">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                        </div>
+                        <br />
+                        <div style="text-align: right;">
+                            <button class="btn btn-outline-light custom-button" style="margin-top:10px;">Add Heading</button>
+                        </div>
                     </div>
                 }
             </div>
@@ -57,6 +84,45 @@
     </section>
 </div>
 
+@section scripts{
+    <!-- bs-custom-file-input -->
+    <script src="~/AdminLTE-3.0.4/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+    <script>
+        function readImageIn(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#ImagePathIn').attr('src', e.target.result);
+                    $('#ImagePathIn').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#Heading').addClass('active');
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var textbox = $("#HeadingName");
+            var charCount = $("#charCount");
+
+            textbox.on("input", function () {
+                var textLength = textbox.val().length;
+                charCount.text(textLength + "/50");
+            });
+        });
+    </script>
+}
 
 

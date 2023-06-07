@@ -1,83 +1,340 @@
-﻿@using EntityLayer.Concrete
-@model List<ImageFile>
+﻿@model EntityLayer.Concrete.ImageFile
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<link href="~/AdminLTE-3.0.4/Showcaseweb/css/simpleLightbox.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="~/AdminLTE-3.0.4/Showcaseweb/css/aos.css">
+<link href='~/AdminLTE-3.0.4/Showcaseweb/css/aos-animation.css' rel='stylesheet prefetch' type="text/css" media="all" />
+<link href="~/AdminLTE-3.0.4/plugins/LightBox/lightbox.css" rel="stylesheet" />
 
-<!-- Ekko Lightbox -->
-<link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/ekko-lightbox/ekko-lightbox.css">
+@Html.Action("ImagePartial", "Gallery")
 
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-0">
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-left">
-                    <li style="margin-top:5px"><i class="fas fa-images"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Gallery </h1></li>
-                </ol>
+<!-- INSERT MODAL -->
+<div class="modal fade" id="insertmodal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="color: #383A3E ">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-plus-circle">
+                    </i> Add New Image
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">WebDictionary v1</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-
-<div class="row">
-    <section class="col-lg-12">
-        <!-- Custom tabs (Charts with tabs)-->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-th-large mr-1"></i>
-                    Gallery
-                </h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right:15px">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-
-                <div class="row">
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-sm-2">
-                            <a href="@item.ImagePath" data-toggle="lightbox" data-title="@item.ImageName" data-gallery="gallery">
-                                <img src="@item.ImagePath" class="img-fluid mb-2" alt="white sample"/>
-                            </a>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "Gallery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        @Html.Label("Name")
+                        @Html.TextBoxFor(x => x.ImageName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.ImageName, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Image")
+                        <br />
+                        <img src="~/Resources/noimages.png" alt="" style="max-width: 190px; max-height: 100px;" id="ImagePathIn">
+                        <br />
+                        <br />
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" accept="image/.jpg,.jpeg,.png" name="imageFile" onchange="readImageIn(this);">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
                         </div>
-                    }
-                </div>
+                        @Html.ValidationMessageFor(x => x.ImagePath, "", new { @style = "color:red" })
+                        <br />
+                        <div class="text-right" style="margin-top:10px">
+                            <button type="submit" class="btn btn-success" name="btnInsert" value="insert" style="margin-top: 10px; background-color: #6F2CF3; border-color: #6F2CF3 ">Add Image</button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-    </section>
+    </div>
 </div>
+<!-- /INSERT MODAL -->
+<!-- /UPDATE MODAL -->
+<div class="modal fade" id="updatemodal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="color: #383A3E ">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-edit">
+                    </i> Edit Skill
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "Gallery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        @Html.Label("Name")
+                        @Html.TextBoxFor(x => x.ImageName, new { @class = "form-control", @id = "ImageName" })
+                        @Html.ValidationMessageFor(x => x.ImageName, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Image")
+                        <br />
+                        <img src="" alt="" style="max-width: 190px; max-height: 100px;" id="ImagePathUp">
+                        <br />
+                        <br />
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile2" accept="image/.jpg,.jpeg,.png" name="imageFile" onchange="readImageUp(this);">
+                                <label class="custom-file-label" for="exampleInputFile2">Choose file</label>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(x => x.ImagePath, "", new { @style = "color:red" })
+                        <br />
+                        @Html.HiddenFor(x => x.ImageId, new { @id = "imageid" })
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success" style="margin-top: 10px; background-color: #6F2CF3; border-color: #6F2CF3 " name="btnUpdate" value="update">Save Changes</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /UPDATE MODAL -->
 
 @section scripts {
-    <!-- Ekko Lightbox -->
-    <script src="~/AdminLTE-3.0.4/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
-    <!-- Filterizr-->
-    <script src="~/AdminLTE-3.0.4/plugins/filterizr/jquery.filterizr.min.js"></script>
-    <!-- Page specific script -->
+    <!-- bs-custom-file-input -->
+    <script src="~/AdminLTE-3.0.4/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+
     <script>
-        $(function () {
-            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
-                event.preventDefault();
-                $(this).ekkoLightbox({
-                    alwaysShowClose: true
+        function readImageUp(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#ImagePathUp').attr('src', e.target.result);
+                    $('#ImagePathUp').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script>
+        function readImageIn(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#ImagePathIn').attr('src', e.target.result);
+                    $('#ImagePathIn').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script>
+        $(document).on('click', '.delete-image', function () {
+                var id = $(this).data('id');
+        var url = '@Url.Action("Delete", "Gallery")' + '/' + id;
+
+        Swal.fire({
+            title: 'Warning!',
+            text: 'Are you sure you want to delete this Image?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    success: function() {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Image was deleted successfully.',
+                            icon: 'success'
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred, the Image could not be deleted.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+        });
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.active-image', function () {
+         var id = $(this).data('id');
+         var url = '@Url.Action("Delete", "Gallery")' + '/' + id;
+
+            if (@ViewBag.count >= 9) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'More than 9 images cannot be activated and displayed.',
+                    icon: 'warning',
+                });
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    success: function () {
+                        Swal.fire({
+                            title: 'Activated!',
+                            text: 'Image was activated successfully.',
+                            icon: 'success'
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred, the Image could not be activated.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- INSERT MODAL -->
+    <script>
+        $(document).ready(function () {
+            $('#insertmodal').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        });
+
+        function showModal() {
+
+            $('#insertmodal').load('/Gallery/Index');
+            $('#insertmodal').modal('show');
+        }
+    </script>
+    @if (ViewBag.alert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                //$("#btn_modal").click();
+                $('#insertmodal').modal('show');
+            });
+        </script>
+    }
+    @if (ViewBag.insertresult == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: 'Added!',
+                    text: 'The Image was added successfully.',
+                    icon: 'success'
+                }).then(() => {
+                    location.href = "/Gallery/Index";
                 });
             });
-
-            $('.filter-container').filterizr({ gutterPixels: 3 });
-            $('.btn[data-filter]').on('click', function () {
-                $('.btn[data-filter]').removeClass('active');
-                $(this).addClass('active');
+        </script>
+    }
+    <!-- /INSERT MODAL -->
+    <!-- UPDATE MODAL -->
+    <script>
+        $(document).ready(function () {
+            $('#updatemodal').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
             });
-        })
+        });
+
+        function showModal() {
+            $('#updatemodal').load('/Gallery/Index');
+            $('#updatemodal').modal('show');
+        }
+    </script>
+    <script>
+        $(document).on('click', '.update-image', function () {
+            var id = $(this).data('id');
+                var url = '@Url.Action("updateImage", "Gallery")' + '/' + id;
+                var imageurl='@Url.Action("GetImage", "Gallery")' + '/' + id;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#updatemodal').find('#imageid').val(data.ImageId);
+                        $('#updatemodal').find('#ImageName').val(data.ImageName);
+                        $('#updatemodal').find('#ImagePathUp').attr('src', imageurl);
+                         //diğer inputlar
+                        $('#updatemodal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            title: status + '!',
+                            text: 'An error occurred, the Image could not be show.' + error,
+                            icon: 'error'
+                        });
+                    }
+                });
+        });
+    </script>
+    @if (ViewBag.updatealert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                $('#updatemodal').modal('show');
+            });
+        </script>
+    }
+
+    @if (ViewBag.updateresult == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: 'Updated!',
+                    text: 'The Image was updated successfully.',
+                    icon: 'success'
+                }).then(() => {
+                    location.href = "/Gallery/Index";
+                });
+            });
+        </script>
+    }
+    <!-- /UPDATE MODAL -->
+    <!-- simpleLightbox -->
+    <script src="~/AdminLTE-3.0.4/Showcaseweb/js/simpleLightbox.js"></script>
+    <script>
+        $('.proj_gallery_grid a').simpleLightbox();
+
+    </script>
+    <!-- //simpleLightbox -->
+    <script src='~/AdminLTE-3.0.4/Showcaseweb/js/aos.js'></script>
+    <script>
+        AOS.init({
+            easing: 'ease-out-back',
+            duration: 1000
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Gallery').addClass('active');
+        });
     </script>
 }
+
+

@@ -14,10 +14,10 @@ namespace WebDictionary.Controllers
 {
     public class WriterPanelContentController : Controller
     {
-        ContentManager cm = new ContentManager(new EfContentDal());
+        ContentManager cm = new ContentManager(new EfContentDal(), new EfHeadingDal(), new EfWriterDal());
         ContentValidator validator = new ContentValidator();
         WriterManager wm = new WriterManager(new EfWriterDal());
-        HeadingManager hm = new HeadingManager(new EfHeadingDal());
+        HeadingManager hm = new HeadingManager(new EfHeadingDal(), new EfCategoryDal());
 
         public ActionResult MyContent()
         {

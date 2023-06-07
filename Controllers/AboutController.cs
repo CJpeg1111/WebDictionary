@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace WebDictionary.Controllers
 {
@@ -19,25 +20,25 @@ namespace WebDictionary.Controllers
 
         public ActionResult Index()
         {
-            var list = am.GetList();
-            return View(list);
-        }
-
-        [HttpGet]
-        public ActionResult addAbout()
-        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult addAbout(About about)
+        public ActionResult Index(About about, FormCollection form)
         {
             ValidationResult result = validator.Validate(about);
             if (result.IsValid)
             {
-                am.AddAbout(about);
-                ViewBag.okay=true;
-                return RedirectToAction("Index");
+                if (form["btnInsert"] != null)
+                {
+                    am.AddAbout(about);
+                    ViewBag.insertresult = "true";
+                }
+                else if (form["btnUpdate"] != null)
+                {
+                    am.UpdateAbout(about);
+                    ViewBag.updateresult = "true";
+                }
             }
             else
             {
@@ -45,19 +46,27 @@ namespace WebDictionary.Controllers
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
-                ViewBag.okay = false;
-                return RedirectToAction("Index",about);
-            }            
+                if (form["btnInsert"] != null)
+                {
+                    ViewBag.alert = "true";
+                }
+                else if (form["btnUpdate"] != null)
+                {
+                    ViewBag.updatealert = "true";
+                }            
+            }
+            return View();
         }
 
         public PartialViewResult AboutPartial()
         {
-            return PartialView();
+            var list = am.GetList();
+            return PartialView(list);
         }
 
         public ActionResult Delete(int id)
         {
-            var find=am.GetAbout(id);
+            var find = am.GetAbout(id);
             if (find.AboutRemove == true)
             {
                 find.AboutRemove = false;
@@ -73,27 +82,22 @@ namespace WebDictionary.Controllers
         [HttpGet]
         public ActionResult updateAbout(int id)
         {
-            var about=am.GetAbout(id);
-            return View(about);
+            var about = am.GetAbout(id);
+            return Json(about, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult updateAbout(About about)
+        [HttpGet]
+        public JsonResult Show(int id)
         {
-            ValidationResult result = validator.Validate(about);
-            if (result.IsValid)
-            {
-                am.UpdateAbout(about);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-                return View();
-            }
+            var about = am.GetAbout(id);
+            return Json(about, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "A")]
+        public ActionResult AboutReport()
+        {
+            var list = am.GetList();
+            return View(list);
         }
     }
 }

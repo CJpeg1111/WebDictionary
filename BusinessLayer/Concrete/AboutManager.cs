@@ -36,6 +36,11 @@ namespace BusinessLayer.Concrete
             return _aboutDal.List();
         }
 
+        public List<About> GetListActive()
+        {
+            return _aboutDal.List(x => x.AboutRemove == false);
+        }
+
         public void UpdateAbout(About about)
         {
             _aboutDal.Update(about);

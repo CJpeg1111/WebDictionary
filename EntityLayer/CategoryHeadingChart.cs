@@ -9,8 +9,8 @@ namespace EntityLayer
 {
     public class CategoryHeadingChart
     {
-        public int CategorID { get; set; }
+        public int CategoryID { get; set; }
         public int Count { get; set; }
-
+        public string CategoryName { get; set; }
     }
 }

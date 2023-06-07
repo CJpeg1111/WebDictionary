@@ -1,176 +1,277 @@
-﻿@using EntityLayer.Concrete
-@model List<Category>
+﻿@model EntityLayer.Concrete.Category
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<!-- DataTables -->
-<link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-0">
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-left">
-                    <li style="margin-top:5px"><i class="fas fa-th"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Categories</h1></li>
-                </ol>
+@Html.Action("CategoryPartial", "AdminCategory")
+
+<!-- INSERT MODAL -->
+<div class="modal fade" id="insertmodal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="color: #383A3E ">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-plus-circle">
+                    </i> Add New Category
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">WebDictionary v1</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-
-
-<div class="row">
-    <section class="col-lg-12">
-        <!-- Custom tabs (Charts with tabs)-->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-list mr-1"></i>
-                    Category List
-                </h3>
-                <div class="card-tools">
-                    <a href="/AdminCategory/addCategory" class="btn btn-outline-success btn-sm" style="margin-right:15px">New Category</a>
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right:15px">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6"></div>
-                        <div class="col-sm-12 col-md-6"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="example1" class="table table-borderless table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="#: activate to sort column descending" aria-sort="ascending">#</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending">Category</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending" style="">Description</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Headings: activate to sort column ascending" style="">Headings</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Transaction: activate to sort column ascending" style="">Transaction</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        if ((Model.IndexOf(item)) % 2 == 0)
-                                        {
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">@item.CategoryID</td>
-                                                <td class="">@item.CategoryName</td>
-                                                <td style="">@item.CategoryDescription</td>
-                                                <td style="" class="">
-                                                    <a href="#" class="btn btn-info">Headings</a>
-                                                </td>
-                                                <td style="">
-                                                    <button class="btn btn-danger delete-category" data-id=@item.CategoryID>Delete</button>
-                                                    <a href="/AdminCategory/updateCategory/@item.CategoryID" class="btn btn-warning">Update</a>
-                                                </td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            <tr role="row" class="even">
-                                                <td class="sorting_1" tabindex="0">@item.CategoryID</td>
-                                                <td class="">@item.CategoryName</td>
-                                                <td style="">@item.CategoryDescription</td>
-                                                <td style="" class="">
-                                                    <a href="#" class="btn btn-info">Headings</a>
-                                                </td>
-                                                <td style="">
-                                                    <button class="btn btn-danger delete-category" data-id=@item.CategoryID>Delete</button>
-                                                    <a href="/AdminCategory/updateCategory/@item.CategoryID" class="btn btn-warning">Update</a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "AdminCategory", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Category Name")
+                        @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @maxlength = "50", @id = "cname" })
+                        <p id="charCount">0/50</p>
+                        @Html.ValidationMessageFor(x => x.CategoryName, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Category Description")
+                        @Html.TextAreaFor(x => x.CategoryDescription, 4, 30, new { @class = "form-control", @maxlength = "200", @id = "cdescription" })
+                        <p id="charCount2">0/200</p>
+                        @Html.ValidationMessageFor(x => x.CategoryDescription, "", new { @style = "color:red" })
+                        <br />
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success" name="btnInsert" value="insert" style="margin-top: 10px; background-color: #6F2CF3; border-color: #6F2CF3 ">Add Category</button>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
-    </section>
+    </div>
 </div>
-
+<!-- /INSERT MODAL -->
+<!-- /UPDATE MODAL -->
+<div class="modal fade" id="updatemodal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="color: #383A3E ">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-edit">
+                    </i> Edit Category
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "AdminCategory", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Category Name")
+                        @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @id = "name", @maxlength = "50" })
+                        <p id="charCount3">0/50</p>
+                        @Html.ValidationMessageFor(x => x.CategoryName, "", new { @style = "color:red" })
+                        <br />
+                        @Html.Label("Category Description")
+                        @Html.TextAreaFor(x => x.CategoryDescription, 4, 30, new { @class = "form-control", @id = "description", @maxlength = "200" })
+                        <p id="charCount4">0/200</p>
+                        @Html.ValidationMessageFor(x => x.CategoryDescription, "", new { @style = "color:red" })
+                        <br />
+                        @Html.HiddenFor(x => x.CategoryID, new { @id = "categoryid" })
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-dark" style="margin-top: 10px; background-color: #6F2CF3; border-color: #6F2CF3 " name="btnUpdate" value="update">Save Changes</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /UPDATE MODAL -->
 
 @section scripts {
-    <!-- DataTables -->
-    <script src="~/AdminLTE-3.0.4/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/AdminLTE-3.0.4/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/AdminLTE-3.0.4/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/AdminLTE-3.0.4/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
     <script>
-        $(function () {
-            $("#example1").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-            });
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+        $(document).ready(function () {
+            var textarea = $("#cname");
+            var charCount = $("#charCount");
+
+            textarea.on("input", function () {
+                var textLength = textarea.val().length;
+                charCount.text(textLength + "/50");
             });
         });
     </script>
-
     <script>
-        $(document).ready(function() {
-    $('.delete-category').click(function() {
-        var id = $(this).data('id');
-        var url = '@Url.Action("Delete", "AdminCategory")' + '/' + id;
+        $(document).ready(function () {
+            var textarea2 = $("#cdescription");
+            var charCount2 = $("#charCount2");
 
-        Swal.fire({
-            title: 'Warning!',
-            text: 'Are you sure you want to delete this category?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
+            textarea2.on("input", function () {
+                var textLength = textarea2.val().length;
+                charCount2.text(textLength + "/200");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var textarea3 = $("#name");
+            var charCount3 = $("#charCount3");
+
+            textarea3.on("input", function () {
+                var textLength = textarea3.val().length;
+                charCount3.text(textLength + "/50");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var textarea4 = $("#description");
+            var charCount4 = $("#charCount4");
+
+            textarea4.on("input", function () {
+                var textLength = textarea4.val().length;
+                charCount4.text(textLength + "/200");
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete-category', function () {
+            var id = $(this).data('id');
+            var url = '@Url.Action("Delete", "AdminCategory")' + '/' + id;
+
+            Swal.fire({
+                title: 'Warning!',
+                text: 'Are you sure you want to delete this category?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        success: function() {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: 'Category was deleted successfully.',
+                                icon: 'success'
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'An error occurred, the category could not be deleted.',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
+        });
+        });
+    </script>
+    <!-- INSERT MODAL -->
+    <script>
+        $(document).ready(function () {
+            $('#insertmodal').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        });
+
+        function showModal() {
+
+            $('#insertmodal').load('/AdminCategory/Index');
+            $('#insertmodal').modal('show');
+        }
+    </script>
+    @if (ViewBag.alert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                //$("#btn_modal").click();
+                $('#insertmodal').modal('show');
+            });
+        </script>
+    }
+    @if (ViewBag.insertresult == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: 'Added!',
+                    text: 'The Catgory was added successfully.',
+                    icon: 'success'
+                }).then(() => {
+                    location.href = "/AdminCategory/Index";
+                });
+            });
+        </script>
+    }
+    <!-- /INSERT MODAL -->
+    <!-- UPDATE MODAL -->
+    <script>
+        $(document).ready(function () {
+            $('#updatemodal').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        });
+            
+        function showModal() {
+            $('#updatemodal').load('/AdminCategory/Index');
+            $('#updatemodal').modal('show');
+        }
+    </script>
+    <script>
+        $(document).on('click', '.update-category', function () {
+                var id = $(this).data('id');
+                var url = '@Url.Action("updateCategory", "AdminCategory")' + '/' + id;
+
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: url,
-                    success: function() {
-                        Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Category was deleted successfully.',
-                            icon: 'success'
-                        }).then((result) => {
-                            location.reload();
-                        });
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#updatemodal').find('#categoryid').val(data.CategoryID);
+                        $('#updatemodal').find('#name').val(data.CategoryName);
+                        $('#updatemodal').find('#description').val(data.CategoryDescription);
+                         //diğer inputlar
+                        $('#updatemodal').modal('show');
                     },
-                    error: function() {
+                    error: function (xhr, status, error) {
                         Swal.fire({
-                            title: 'Error!',
-                            text: 'An error occurred, the category could not be deleted.',
+                            title: status + '!',
+                            text: 'An error occurred, the category could not be show.' + error,
                             icon: 'error'
                         });
                     }
                 });
-            }
         });
-    });
-});
+    </script>
+    @if (ViewBag.updatealert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                $('#updatemodal').modal('show');
+            });
+        </script>
+    }
+
+    @if (ViewBag.updateresult == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: 'Updated!',
+                    text: 'The Category was updated successfully.',
+                    icon: 'success'
+                }).then(() => {
+                    location.href = "/AdminCategory/Index";
+                });
+            });
+        </script>
+    }
+    <!-- /UPDATE MODAL -->
+
+    <script>
+        $(document).ready(function () {
+            $('#Category').addClass('active');
+        });
     </script>
 }

@@ -1,4 +1,4 @@
-﻿@model EntityLayer.Concrete.Contact
+﻿@model EntityLayer.Concrete.Writer
 @{
     Layout = null;
 }
@@ -30,6 +30,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     </script>
     <!-- //Meta tag Keywords -->
+    <link rel="icon" type="image/x-icon" href="~/Resources/crossairblue.png">
     <!-- Custom-Files -->
     <link rel="stylesheet" href="~/AdminLTE-3.0.4/Showcaseweb/css/bootstrap.css">
     <!-- Bootstrap-Core-CSS -->
@@ -91,12 +92,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <a id="gocontact" class="scroll" href="#contact">Contact</a>
                     </li>
                     <li class="login">
-                        <button type="button" class="btn login-btn text-uppercase " data-toggle="modal" data-target="#exampleModalCenter">
-                            Login
-                        </button>
+                        <a class="btn btn-primary" href="/Login/WriterLogin" target="_blank">LOGIN</a>
+                    </li>
+                    <li class="login">
+                        <a class="btn btn-outline-light" data-toggle="modal" data-target="#insertmodal" href="#">
+                            SIGN UP
+                        </a>
                     </li>
                     <li>
-                        <a class="btn btn-dark" href="/HomePage/Headings">Dictionary</a>
+                        <a class="btn btn-dark" href="/DictionaryPanel/Index" target="_blank"> <i class="fas fa-crosshairs"></i> Dictionary</a>
                     </li>
                 </ul>
             </div>
@@ -130,61 +134,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!--// banner-slider -->
     <!-- banner-bottom-wthree -->
     <section class="banner-bottom-wthree py-lg-5 py-md-5 py-4" id="about">
-        <div class="container">
-            <div class="inner-sec-w3ls py-lg-5 py-4">
-                <div class="info-about text-center">
-                    <h4 class="sub-tittle-w3">Tech Stacks</h4>
-                    <h3 class="tittle-w3 text-uppercase mb-lg-5 mb-3">Tech Stacks I Used</h3>
-                    <div class="row mt-lg-5 mt-3">
-                        <div class="col-lg-4 progress-info-content text-left">
-                            <div class="progress-one my-lg-5" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">C# PROGRAMMING LANGUAGE</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress-one" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">ENTITY FRAMEWORK CODE FIRST</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="col-lg-4 progress-info-content text-left">
-                            <div class="progress-one my-lg-5" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">ASP.NET</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress-one" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">Solid Principles</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 progress-info-content text-left">
-                            <div class="progress-one my-lg-5" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">Enterprise Architecture</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-secondary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress-one" data-aos="fade-up">
-                                <h4 class="progress-tittle-w3">
-                                    MICROSOFT SQL SERVER
-                                </h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @Html.Action("SkillPartial", "ShowCase")
+       
     </section>
     <!--// ab -->
     <!-- /services -->
@@ -287,119 +239,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //services -->
     <!--gallery  -->
     <section class="gallery py-md-5 py-3" id="projects">
-        <div class="gallery-inner container py-md-5 pb-3">
-            <h4 class="sub-tittle-w3 text-uppercase text-center">Gallery</h4>
-            <h3 class="tittle-w3 text-uppercase mb-lg-5 mb-3 text-center">Project Images</h3>
-            <div class="row">
 
-                <div class="col-md-4 proj_gallery_grid" data-aos="zoom-in">
-                    <div class="section_1_gallery_grid">
-                        <a title="Categories Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_categories.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_categories.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Contents Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_contents.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_contents.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Headings Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_headings.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_headings.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4 proj_gallery_grid" data-aos="zoom-in">
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Dictionary Home Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_userpanel.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_userpanel.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid">
-                        <a title="Messages Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_messages.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_messages.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Create Message Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_addmessage.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_addmessage.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4 proj_gallery_grid" data-aos="zoom-in">
-                    <div class="section_1_gallery_grid">
-                        <a title="Profile Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_myprofile.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_myprofile.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Writers Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_writers.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_writers.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section_1_gallery_grid" data-aos="zoom-in">
-                        <a title="Error 404 Page" href="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_error404.png">
-                            <div class="section_1_gallery_grid1">
-                                <img src="~/AdminLTE-3.0.4/Showcaseweb/images/webdictionary_error404.png" alt=" " class="img-fluid" />
-                                <div class="proj_gallery_grid1_pos">
-                                    <h3>Recognize</h3>
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!--end portfolio-area -->
-            </div>
-            <!-- //gallery container -->
-        </div>
+        @Html.Action("ImagePartial", "ShowCase")
+       
     </section>
     <!-- //gallery -->
     <!--/stats-->
@@ -409,28 +251,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="col-sm-3 col-6 stats_info counter_grid">
 
                     <i class="fas fa-th"></i>
-                    <p class="counter">645</p>
+                    <p class="counter">@ViewBag.category</p>
                     <h4>Number of Category</h4>
 
                 </div>
                 <div class="col-sm-3 col-6 stats_info counter_grid1">
 
                     <i class="fas fa-heading"></i>
-                    <p class="counter">563</p>
+                    <p class="counter">@ViewBag.heading</p>
                     <h4>Number of Heading</h4>
 
                 </div>
                 <div class="col-sm-3 col-6 stats_info counter_grid">
 
                     <i class="fas fa-paper-plane"></i>
-                    <p class="counter">1145</p>
+                    <p class="counter">@ViewBag.content</p>
                     <h4>Number of Entry</h4>
 
                 </div>
                 <div class="col-sm-3 col-6 stats_info counter_grid2">
 
                     <i class="far fa-user"></i>
-                    <p class="counter">1045</p>
+                    <p class="counter">@ViewBag.writer</p>
                     <h4>Number of Writer</h4>
 
                 </div>
@@ -439,49 +281,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </section>
     <!--//stats-->
     <!-- /testimonials -->
-    <div class="testimonials py-lg-5 py-4" id="clients">
-        <div class="testimonials-inner container py-lg-4 py-3">
-            <h4 class="sub-tittle-w3 text-uppercase text-center">Short Notes</h4>
-            <h3 class="tittle-w3 text-uppercase mb-lg-5 mb-3 text-center">About the Project</h3>
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <div class="testimonials_grid center">
-                            <div class="testimonials_grid-inn text-uppercase">
-                                <i class="fas fa-quote-left"></i>
-                                <p>While developing the project, I tried to progress with .net mvc5 in accordance with solid principles without crushing the n-tier architecture. I completed the project in about 4 weeks.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="testimonials_grid text-center">
-                            <div class="testimonials_grid-inn text-uppercase">
-                                <i class="fas fa-quote-left"></i>
-                                <p>I really enjoyed while I was developing, I hope you will like this project, your comments are very important to me. Please send your comments to me in the contact section.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="testimonials_grid">
-                            <div class="testimonials_grid-inn text-uppercase">
-                                <i class="fas fa-quote-left"></i>
-                                <p>This project was a study to develop myself in the field of .Net MVC Framework. After this project, I will develop projects in the field of .Net MVC Core and continue my way with .Net technologies.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev test" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="fas fa-long-arrow-alt-left"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next test" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="fas fa-long-arrow-alt-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @Html.Action("AboutPartial", "ShowCase")
     <!-- //testimonials -->
     <!-- /Contact-->
     <section class="contact py-lg-5 py-md-5 py-3" id="contact">
@@ -490,36 +290,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h4 class="sub-tittle-w3 text-uppercase text-center">Find Me</h4>
                 <h3 class="tittle-w3 text-uppercase mb-lg-5 mb-3 text-center text-white">Contact Me Now</h3>
 
-                <div class="contact_grid_right">
-                    @using (Html.BeginForm("Home", "ShowCase", FormMethod.Post))
-                    {
-                        <div class="row contact_left_grid">
-                            <div class="col-md-6 con-left" data-aos="fade-up">
-                                <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = "Name" })
-                                    @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Mail, new { @class = "form-control", placeholder = "Mail" })
-                                    @Html.ValidationMessageFor(x => x.Mail, "", new { @style = "color:red" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", placeholder = "Subject" })
-                                    @Html.ValidationMessageFor(x => x.Subject, "", new { @style = "color:red" })
-                                </div>
-                            </div>
-                            <div class="col-md-6 con-right" data-aos="fade-up">
-                                <div class="form-group">
-                                    @Html.TextAreaFor(x => x.Message, new { @class = "form-control", placeholder = "Your message" })
-                                    @Html.ValidationMessageFor(x => x.Message, "", new { @style = "color:red" })
-                                </div>
-                            </div>
-                            <div class="sub-honey mx-auto mt-3">
-                                <input class="form-control" type="submit" value="Send">
-                            </div>
-                        </div>
-                    }
-                </div>
+                @Html.Action("ContactPartial", "ShowCase")
+
                 <div class="address row mt-lg-5">
 
                     <div class="col-md-4 address-grid" data-aos="flip-up">
@@ -608,13 +380,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="col-lg-2 col-md-4 col-sm-6 mt-sm-5">
                     <ul class="list-footer" data-aos="fade-up">
                         <li>
-                            <a href="#register" data-toggle="modal" data-target="#exampleModalCenter" class="nav-link scroll">
-                                Login
-                            </a>
+                            <a href="/Login/WriterLogin" target="_blank" class="nav-link">Login</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter2" class="nav-link">
-                                Register
+                            <a data-toggle="modal" data-target="#insertmodal" href="#" class="nav-link">
+                                Sign Up
                             </a>
                         </li>
                     </ul>
@@ -622,7 +392,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="offset-lg-4"></div>
                 <div class="col-lg-4 footer-end-grid mt-md-0 mt-sm-5" data-aos="fade-up">
                     <h2>
-                        <a href="/ShowCase/Home">
+                        <a href="/HomePage/Headings" target="_blank">
                             <i class="fas fa-crosshairs"></i> Dictionary
                         </a>
                     </h2>
@@ -638,22 +408,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="social-content pb-md-0 pb-4">
                     <ul class="social-icons text-center d-flex">
                         <li class="ml-lg-5">
-                            <a href="https://github.com/Kadir-Aydemir">
+                            <a href="https://github.com/Kadir-Aydemir" target="_blank">
                                 <i class="fab fa-github-alt"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://instagram.com/kadir.aay">
+                            <a href="https://instagram.com/kadir.aay" target="_blank">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://discord.com/users/517846710043541524">
+                            <a href="https://discord.com/users/517846710043541524" target="_blank">
                                 <i class="fab fa-discord"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.linkedin.com/in/kadir-aydemir/">
+                            <a href="https://www.linkedin.com/in/kadir-aydemir/" target="_blank">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         </li>
@@ -667,47 +437,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </footer>
     <!--//footer-->
     <!--model-forms-->
-    <!--/Login-->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="login px-4 mx-auto mw-100">
-                        <h5 class="text-center mb-4">Login Now</h5>
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <label class="mb-2">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" required="">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-2">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="" required="">
-                            </div>
-                            <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary submit mb-4">Sign In</button>
-                            <p class="text-center pb-4">
-                                <a href="#" data-toggle="modal" data-target="#exampleModalCenter2"> Don't have an account?</a>
-                            </p>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!--//Login-->
     <!--/Register-->
-    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="insertmodal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -718,32 +449,40 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="modal-body">
                     <div class="login px-4 mx-auto mw-100">
                         <h5 class="text-center mb-4">Register Now</h5>
-                        <form action="#" method="post">
+                        @using (Html.BeginForm("Home", "ShowCase", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
                             <div class="form-group">
-                                <label>First name</label>
-
-                                <input type="text" class="form-control" id="validationDefault01" placeholder="" required="">
+                                @Html.TextBoxFor(x => x.WriterName, new { @class = "form-control", placeholder = "Name" })
+                                @Html.ValidationMessageFor(x => x.WriterName, "", new { @style = "color:red" })
+                                <br />
+                                @Html.TextBoxFor(x => x.WriterSurname, new { @class = "form-control", placeholder = "Surname" })
+                                @Html.ValidationMessageFor(x => x.WriterSurname, "", new { @style = "color:red" })
+                                <br />
+                                @Html.TextBoxFor(x => x.WriterTitle, new { @class = "form-control", placeholder = "Title" })
+                                @Html.ValidationMessageFor(x => x.WriterTitle, "", new { @style = "color:red" })
+                                <br />
+                                @Html.TextAreaFor(x => x.WriterAbout, new { @class = "form-control", placeholder = "About" })
+                                @Html.ValidationMessageFor(x => x.WriterAbout, "", new { @style = "color:red" })
+                                <br />
+                                @Html.TextBoxFor(x => x.WriterMail, new { @class = "form-control", placeholder = "Mail" })
+                                @Html.ValidationMessageFor(x => x.WriterMail, "", new { @style = "color:red" })
+                                <br />
+                                @Html.TextBoxFor(x => x.WriterPassword, new { @class = "form-control", placeholder = "Password" })
+                                @Html.ValidationMessageFor(x => x.WriterPassword, "", new { @style = "color:red" })
+                                <br />
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="exampleInputFile" accept="image/*" name="imageFile">
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-primary submit mb-4" name="btnInsert" value="insert">REGISTER</button>
+                                <p class="text-center pb-4">
+                                    <a href="#">By clicking Register, I agree to your terms</a>
+                                </p>
                             </div>
-                            <div class="form-group">
-                                <label>Last name</label>
-                                <input type="text" class="form-control" id="validationDefault02" placeholder="" required="">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="mb-2">Password</label>
-                                <input type="password" class="form-control" id="password1" placeholder="" required="">
-                            </div>
-                            <div class="form-group">
-                                <label>Confirm Password</label>
-                                <input type="password" class="form-control" id="password2" placeholder="" required="">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary submit mb-4">Register</button>
-                            <p class="text-center pb-4">
-                                <a href="#">By clicking Register, I agree to your terms</a>
-                            </p>
-                        </form>
-
+                        }
                     </div>
                 </div>
 
@@ -806,6 +545,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- Include jQuery Timeline Plugin -->
     <script src="~/AdminLTE-3.0.4/Showcaseweb/js/jquery.roadmap.js"></script>
 
+    <script src="~/AdminLTE-3.0.4/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/AdminLTE-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- bs-custom-file-input -->
+    <script src="~/AdminLTE-3.0.4/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/AdminLTE-3.0.4/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/AdminLTE-3.0.4/dist/js/demo.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
     <!-- simpleLightbox -->
     <script src="~/AdminLTE-3.0.4/Showcaseweb/js/simpleLightbox.js"></script>
     <script>
@@ -818,7 +571,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="~/AdminLTE-3.0.4/Showcaseweb/js/jquery.countup.js"></script>
     <script>
         $('.counter').countUp();
-
     </script>
     <!-- //stats -->
     <!--/ start-smoth-scrolling -->
@@ -864,7 +616,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             });
         </script>
     }
+    @if (ViewBag.send == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                swal.fire("Success", "Your message has been sent to us successfully.", "success").then(() => {
+                    ViewBag.send = "false";
+                    location.reload();
+                });
+            });
+        </script>
+    }
 
+    @if (ViewBag.alert == "true")
+    {
+        <script>
+            $(document).ready(function () {
+                $('#insertmodal').modal('show');
+            });
+        </script>
+    }
     <script src="~/AdminLTE-3.0.4/Showcaseweb/js/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>

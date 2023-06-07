@@ -30,3 +30,10 @@ D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLay
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.add_image_class.resources
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.add_admin_class.resources
 D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.about_add_remove.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.admin_add_status.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.writer_update_imageformat.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.about_delete_images.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.add_skill_class.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.imagefile_update_imagepath.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.imagefiles_add_remove.resources
+D:\C# Project\ASP.NET MVC5\WebDictionary\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.heading_add_image.resources

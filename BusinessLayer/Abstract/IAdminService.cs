@@ -14,6 +14,7 @@ namespace BusinessLayer.Abstract
         Admin GetAdmin(int id);
         Admin GetAdminForRole(string AdminUserName);
         Admin ControlAdmin(string AdminUserName, string AdminPassword);
+        Admin IsMailExist(string AdminUserName);
         void DeleteAdmin(Admin admin);
         void UpdateAdmin(Admin admin);
     }

@@ -24,8 +24,7 @@ namespace EntityLayer.Concrete
         [StringLength(200)]
         public string WriterPassword { get; set; }
 
-        [StringLength(100)]
-        public string WriterImage { get; set; }
+        public byte[] WriterImage { get; set; }
 
         [StringLength(100)]
         public string WriterAbout { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using EntityLayer;
 using EntityLayer.Concrete;
 using System;
@@ -13,10 +14,11 @@ namespace BusinessLayer.Concrete
     public class HeadingManager : IHeadingService
     {
         IHeadingDal _headingDal;
-
-        public HeadingManager(IHeadingDal headingDal)
+        ICategoryDal _categoryDal;
+        public HeadingManager(IHeadingDal headingDal, ICategoryDal categoryDal)
         {
             _headingDal = headingDal;
+            _categoryDal = categoryDal;
         }
 
         public void AddHeading(Heading heading)
@@ -39,19 +41,45 @@ namespace BusinessLayer.Concrete
             return _headingDal.List();
         }
 
+        public List<Heading> GetListActive()
+        {
+            return _headingDal.List(x => x.HeadingRemove == false);
+        }
+
+        public List<Heading> GetListAgenda()
+        {
+            return _headingDal.List(x => x.HeadingRemove == false, x => x.HeadingDate);
+        }
+
+        public List<Heading> GetListByCategory(int id)
+        {
+            return _headingDal.List(x => x.CategoryID == id);
+        }
+
         public List<Heading> GetListByWriter(int id)
         {
             return _headingDal.List(x => x.WriterID == id);
         }
 
-     
         public List<CategoryHeadingChart> ListCategoryHeading()
         {
             var result = _headingDal.ListChart(x => x.CategoryID, x => new CategoryHeadingChart
             {
-                CategorID = x.Key,
+                CategoryID = x.Key,
                 Count = x.Count()
             });
+
+            var categoryIDs = result.Select(x => x.CategoryID).ToList();
+            var categoryNames = _categoryDal.List(c => categoryIDs.Contains(c.CategoryID))
+                                        .ToDictionary(c => c.CategoryID, c => c.CategoryName);
+
+            foreach (var item in result)
+            {
+                if (categoryNames.ContainsKey(item.CategoryID))
+                {
+                    item.CategoryName = categoryNames[item.CategoryID];
+                }
+            }
             return result;
         }
 

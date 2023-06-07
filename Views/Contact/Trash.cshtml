@@ -10,7 +10,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li style="margin-top:5px"><i class="fas fa-edit"></i></li>
-                    <li style="margin-left:10px"><h1 class="m-0 text-dark"> Contact & Messages </h1></li>
+                    <li style="margin-left:10px"><h1 class="m-0"> Contact & Messages </h1></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -25,7 +25,7 @@
 <div class="row">
     <section class="col-lg-12">
         <!-- Custom tabs (Charts with tabs)-->
-        <div class="card">
+        <div class="card" style="background-color: #181A1F; color: #9FA0A2;">
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="fas fa-mail-bulk mr-1"></i>
@@ -47,7 +47,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-9">
-                            <div class="card card-primary card-outline">
+                            <div class="card card-primary card-outline" style="background-color: #181A1F; color: #9FA0A2;">
                                 <div class="card-header">
                                     <h3 class="card-title">Trash</h3>
 
@@ -139,6 +139,14 @@
                     $this.toggleClass('fa-star-o')
                 }
             })
-        })</script>
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#Contact').addClass('active');
+        });
+    </script>
+
 }
 

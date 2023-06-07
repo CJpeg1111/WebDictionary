@@ -15,22 +15,13 @@
                     <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
                 </div>
                 <!-- /.btn-group -->
-                <div class="float-right">
-                    1-50/200
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
             </div>
             <div class="table-responsive mailbox-messages">
                 <table class="table table-hover">
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr style="background-color: #181A1F; color: #9FA0A2;">
                                 <td>
                                     <div class="icheck-primary">
                                         <input type="checkbox" value="" id=@item.MessageId>
@@ -40,16 +31,15 @@
                                 <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                                 <td class="mailbox-name"><a href="/Message/trashMessageDetails/@item.MessageId">@item.SenderMail</a></td>
                                 <td class="mailbox-subject">
-                                    <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@item.Subject -</a>
-                                    @if (item.MessageContent.Length + item.Subject.Length <= 90)
+                                    <a style="color: #9FA0A2" href="/Message/trashMessageDetails/@item.MessageId">@item.Subject -</a>
+                                    @{ string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);}
+                                    @if (cleanText.Length + item.Subject.Length <= 50)
                                     {
-                                        string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);
-                                        <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@cleanText</a>}
-                                    @if (item.MessageContent.Length + item.Subject.Length > 90)
+                                        <a style="color: #9FA0A2" href="/Message/trashMessageDetails/@item.MessageId">@cleanText</a>}
+                                    @if (cleanText.Length + item.Subject.Length > 50)
                                     {
-                                        string cleanText = Regex.Replace(item.MessageContent, @"<[^>]*>", string.Empty);
-                                        int sub = 90 - item.Subject.Length;
-                                        <a style="color:black" href="/Message/trashMessageDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
+                                        int sub = 50 - item.Subject.Length;
+                                        <a style="color: #9FA0A2" href="/Message/trashMessageDetails/@item.MessageId">@cleanText.Substring(0, sub)...</a>
                                     }
                                 </td>
                                 @*<td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>*@
@@ -83,15 +73,6 @@
                     <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
                 </div>
                 <!-- /.btn-group -->
-                <div class="float-right">
-                    1-50/200
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
             </div>
         </div>
     }
@@ -100,4 +81,3 @@
         <div style="text-align:center"><h3 style="margin-block:15px"><i class="fas fa-search-location"></i> No deleted data found</h3></div>
     }
 }
-

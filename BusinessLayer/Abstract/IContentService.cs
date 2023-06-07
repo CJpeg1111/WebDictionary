@@ -1,4 +1,5 @@
-﻿using EntityLayer.Concrete;
+﻿using EntityLayer;
+using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,13 @@ namespace BusinessLayer.Abstract
         List<Content> GetList(string parameter);
         List<Content> GetListById(int id);
         List<Content> GetListByWriterId(int id);
+        List<Content> GetListByHeadingId(int id);
         void AddContent(Content content);
         Content GetContent(int id);
+        Content GetContentInclude(int id);
         void DeleteContent(Content content);
         void UpdateContent(Content content);
+        List<HeadingContentChart> ListHeadingContent();
+        List<WriterContentChart> ListWriterContent();
     }
 }

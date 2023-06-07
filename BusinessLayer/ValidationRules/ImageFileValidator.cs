@@ -16,10 +16,6 @@ namespace BusinessLayer.ValidationRules
             RuleFor(x => x.ImageName).NotEmpty().WithMessage("You cannot leave this field blank!");
             RuleFor(x => x.ImageName).MaximumLength(100).WithMessage("Image Name cannot exceed 50 characters!");
             RuleFor(x => x.ImageName).MinimumLength(3).WithMessage("Image Name cannot be shorter than 3 characters!");
-
-            RuleFor(x => x.ImagePath).NotEmpty().WithMessage("You cannot leave this field blank!");
-            RuleFor(x => x.ImagePath).MaximumLength(250).WithMessage("Image Path cannot exceed 250 characters!");
-            RuleFor(x => x.ImagePath).MinimumLength(3).WithMessage("Image Path cannot be shorter than 3 characters!");
         }    
     }
 }
